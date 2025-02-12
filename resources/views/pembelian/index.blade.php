@@ -1,9 +1,9 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">{{ __('field.purchase') }}</h4>
+            <h4 class="card-title">Pembelian</h4>
             <div class="card-header-action">
                 <button onclick="addForm()" class="btn btn-success btn-xs btn-flat"><i class="fa fa-plus-circle"></i>
                     Transaksi Baru</button>
@@ -11,17 +11,16 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
-                <table class="table table-striped table-pembelian">
+                <table class="table table-striped table-pembelian table-bordered">
                     <thead>
-                        <th width="5%">No</th>
+                        <th width="5%">No.</th>
                         <th>Tanggal</th>
                         <th>Supplier</th>
                         <th>Total Item</th>
                         <th>Total Harga</th>
                         <th>Diskon</th>
                         <th>Total Bayar</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
             </div>

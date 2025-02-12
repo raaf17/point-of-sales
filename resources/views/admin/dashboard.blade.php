@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="row">
         <div class="col-md-4">
@@ -60,7 +60,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-10">
-                            <h4>Hasil Penjualan</h4>
+                            <h4>Hasil Pendapatan</h4>
                         </div>
                         <div class="col-2 d-flex justify-content-end">
                             <button class="btn btn-light icon" onclick="getData()"><i class="fas fa-sync-alt"></i></button>
@@ -68,7 +68,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div id="chartHasil"></div>
+                    {{-- <div id="chartHasil"></div> --}}
+                    <canvas id="salesChart"></canvas>
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@
 
 @push('scripts')
     <!-- ChartJS -->
-    <script src="{{ asset('AdminLTE-2/bower_components/chart.js/Chart.js') }}"></script>
+    <script src="{{ asset('chart.js/Chart.js') }}"></script>
     <script>
         $(function() {
             // Get context with jQuery - using jQuery's .get() method.

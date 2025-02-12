@@ -42,24 +42,32 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ $title === 'Dashboard' ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
+                @if (auth()->user()->level == 1)
+                    @include('layouts.components.master-sidebar')
+                    @include('layouts.components.transaksi-sidebar')
 
-                @include('layouts.components.master-sidebar')
-                @include('layouts.components.transaksi-sidebar')
+                    <li class="sidebar-item {{ $title === 'Laporan' ? 'active' : '' }}">
+                        <a href="{{ url('/laporan') }}" class='sidebar-link'>
+                            <i class="bi bi-newspaper"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item  ">
-                    <a href="{{ url('/laporan') }}" class='sidebar-link'>
-                        <i class="bi bi-newspaper"></i>
-                        <span>Laporan</span>
-                    </a>
-                </li>
-
-                @include('layouts.components.sistem-sidebar')
+                    @include('layouts.components.sistem-sidebar')
+                @else
+                    <li class="sidebar-item {{ $title === 'Laporan' ? 'active' : '' }}">
+                        <a href="{{ url('/laporan') }}" class='sidebar-link'>
+                            <i class="bi bi-newspaper"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

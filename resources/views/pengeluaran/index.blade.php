@@ -1,24 +1,25 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">{{ __('field.expenditure') }}</h4>
+            <h4 class="card-title">Pengeluaran</h4>
             <div class="card-header-action">
                 <button onclick="addForm('{{ route('pengeluaran.store') }}')"
-                    class="btn btn-primary">{{ __('button.add') }}</button>
+                    class="btn btn-primary"><i
+                    class="fa fa-plus-circle"></i> Tambah</button>
             </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered">
                     <thead>
-                        <th width="5%">No</th>
+                        <th width="5%">No.</th>
                         <th>Tanggal</th>
                         <th>Deskripsi</th>
                         <th>Nominal</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
             </div>

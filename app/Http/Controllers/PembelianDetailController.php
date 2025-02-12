@@ -21,7 +21,9 @@ class PembelianDetailController extends Controller
             abort(404);
         }
 
-        return view('pembelian_detail.index', compact('id_pembelian', 'produk', 'supplier', 'diskon'));
+        return view('pembelian_detail.index', compact('id_pembelian', 'produk', 'supplier', 'diskon'), [
+            'title' => 'Pembelian Detail'
+        ]);
     }
 
     public function data($id)

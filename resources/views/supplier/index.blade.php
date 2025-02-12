@@ -1,9 +1,5 @@
 @extends('layouts.master')
-
-@section('title')
-    Supplier
-@endsection
-
+@section('title', $title)
 @section('breadcrumb')
     @parent
     <li class="active">Master Supplier</li>
@@ -18,13 +14,13 @@
                             class="fa fa-plus-circle"></i> Tambah</button>
                 </div>
                 <div class="box-body table-responsive">
-                    <table class="table table-stiped table-bordered">
+                    <table class="table table-striped table-bordered">
                         <thead>
-                            <th width="5%">No</th>
+                            <th width="5%">No.</th>
                             <th>Nama</th>
                             <th>Telepon</th>
                             <th>Alamat</th>
-                            <th width="15%"><i class="fa fa-cog"></i></th>
+                            <th width="8"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
                 </div>

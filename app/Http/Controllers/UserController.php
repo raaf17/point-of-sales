@@ -10,7 +10,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('user.index');
+        return view('user.index', [
+            'title' => 'Users'
+        ]);
     }
 
     public function data()
@@ -23,8 +25,8 @@ class UserController extends Controller
             ->addColumn('aksi', function ($user) {
                 return '
                 <div class="btn-group">
-                    <button type="button" onclick="editForm(`' . route('user.update', $user->id) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
-                    <button type="button" onclick="deleteData(`' . route('user.destroy', $user->id) . '`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button type="button" onclick="editForm(`' . route('user.update', $user->id) . '`)" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
+                    <button type="button" onclick="deleteData(`' . route('user.destroy', $user->id) . '`)" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -137,7 +139,9 @@ class UserController extends Controller
     public function profil()
     {
         $profil = auth()->user();
-        return view('user.profil', compact('profil'));
+        return view('user.profil', compact('profil'), [
+            'title' => 'Profil'
+        ]);
     }
 
     public function updateProfil(Request $request)

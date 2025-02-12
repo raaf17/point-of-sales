@@ -1,13 +1,12 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
-                <table class="table table-striped table-penjualan">
+                <table class="table table-striped table-penjualan table-bordered">
                     <thead>
-                        <th width="5%">No</th>
+                        <th width="5%">No.</th>
                         <th>Tanggal</th>
                         <th>Kode Member</th>
                         <th>Total Item</th>
@@ -15,7 +14,7 @@
                         <th>Diskon</th>
                         <th>Total Bayar</th>
                         <th>Kasir</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
             </div>

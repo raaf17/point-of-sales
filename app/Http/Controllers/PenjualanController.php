@@ -13,7 +13,9 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        return view('penjualan.index');
+        return view('penjualan.index', [
+            'title' => 'Penjualan'
+        ]);
     }
 
     public function data()
@@ -48,8 +50,8 @@ class PenjualanController extends Controller
             ->addColumn('aksi', function ($penjualan) {
                 return '
                 <div class="btn-group">
-                    <button onclick="showDetail(`'. route('penjualan.show', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i></button>
-                    <button onclick="deleteData(`'. route('penjualan.destroy', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button onclick="showDetail(`'. route('penjualan.show', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-info btn-flat btn-sm"><i class="fa fa-eye"></i></button>
+                    <button onclick="deleteData(`'. route('penjualan.destroy', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -146,7 +148,9 @@ class PenjualanController extends Controller
     {
         $setting = Setting::first();
 
-        return view('penjualan.selesai', compact('setting'));
+        return view('penjualan.selesai', compact('setting'), [
+            'title' => 'Penjualan'
+        ]);
     }
 
     public function notaKecil()

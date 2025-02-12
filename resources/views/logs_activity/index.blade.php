@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Data Kategori</h4>
+            <h4 class="card-title">Logs Activity</h4>
             <div class="card-header-action">
                 <button onclick="addForm('{{ route('kategori.store') }}')" class="btn btn-primary"><i
                         class="fa fa-plus-circle"></i> Tambah</button>
@@ -14,8 +14,11 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th width="5%">No.</th>
-                        <th>Kategori</th>
-                        <th width="8%"><i class="fa fa-cog"></i></th>
+                        <th>Date</th>
+                        <th>Class</th>
+                        <th>Action</th>
+                        <th width="30%">Activity</th>
+                        <th width="5%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
             </div>
@@ -36,7 +39,7 @@
                 serverSide: true,
                 autoWidth: false,
                 ajax: {
-                    url: '{{ route('kategori.data') }}',
+                    url: '{{ route('logs_activity.data') }}',
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -44,7 +47,16 @@
                         sortable: false
                     },
                     {
-                        data: 'nama_kategori'
+                        data: 'created_at'
+                    },
+                    {
+                        data: 'subject_type'
+                    },
+                    {
+                        data: 'description'
+                    },
+                    {
+                        data: 'properties'
                     },
                     {
                         data: 'aksi',

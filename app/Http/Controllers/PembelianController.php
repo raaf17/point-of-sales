@@ -14,7 +14,9 @@ class PembelianController extends Controller
     {
         $supplier = Supplier::orderBy('nama')->get();
 
-        return view('pembelian.index', compact('supplier'));
+        return view('pembelian.index', compact('supplier'), [
+            'title' => 'Pembelian'
+        ]);
     }
 
     public function data()

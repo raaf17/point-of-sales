@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $setting->nama_perusahaan }} | @yield('title')</title>
+    <title>{{ $setting->nama_perusahaan ? $setting->nama_perusahaan : config('app.name') }} &mdash; @yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/main/app.css">

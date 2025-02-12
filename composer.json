@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.0",
         "milon/barcode": "^8.0",
+        "spatie/laravel-activitylog": "^4.10",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

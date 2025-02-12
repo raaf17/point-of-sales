@@ -1,14 +1,16 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Produk</h4>
             <div class="card-header-action">
                 <button onclick="addForm('{{ route('produk.store') }}')"
-                    class="btn btn-primary">{{ __('button.add') }}</button>
+                    class="btn btn-primary"><i
+                    class="fa fa-plus-circle"></i> Tambah</button>
                 <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')"
-                    class="btn btn-danger">{{ __('button.delete') }}</button>
+                    class="btn btn-danger"><i
+                    class="fa fa-trash"></i> Delete</button>
             </div>
         </div>
         <div class="card-body">
@@ -16,12 +18,12 @@
                 {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
                 <form action="" method="post" class="form-produk">
                     @csrf
-                    <table class="table table-striped">
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <th width="5%">
                                 <input type="checkbox" name="select_all" id="select_all">
                             </th>
-                            <th width="5%">No</th>
+                            <th width="5%">No.</th>
                             <th>Kode</th>
                             <th>Nama</th>
                             <th>Kategori</th>
@@ -30,7 +32,7 @@
                             <th>Harga Jual</th>
                             <th>Diskon</th>
                             <th>Stok</th>
-                            <th width="15%"><i class="fa fa-cog"></i></th>
+                            <th width="8%"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
                 </form>

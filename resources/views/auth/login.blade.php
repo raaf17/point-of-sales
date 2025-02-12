@@ -1,10 +1,10 @@
 @extends('layouts.auth')
-
 @section('login')
-    <div class="row h-100 justify-content-center">
-        <div class="col-lg-6 col-12">
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
             <div id="auth-left">
-                <h1 class="auth-title text-center">Masuk</h1>
+                <h1 class="auth-title">Log in.</h1>
+                <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
 
                 <form action="{{ route('login') }}" method="post" class="form-login">
                     @csrf
@@ -57,6 +57,10 @@
                 </form>
             </div>
         </div>
-
+        <div class="col-lg-7 d-none d-lg-block">
+            <div>
+                <img src="{{ asset('img') }}/background-login.jpg" alt="" style="width: 1500px">
+            </div>
+        </div>
     </div>
 @endsection

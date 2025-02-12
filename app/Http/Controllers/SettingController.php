@@ -9,7 +9,9 @@ class SettingController extends Controller
 {
     public function index()
     {
-        return view('setting.index');
+        return view('setting.index', [
+            'title' => 'Settings'
+        ]);
     }
 
     public function show()

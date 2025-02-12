@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">

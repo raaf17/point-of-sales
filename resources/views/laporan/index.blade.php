@@ -1,19 +1,19 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">{{ __('field.purchase') }}</h4>
+            <h4 class="card-title">Pembelian</h4>
             <div class="card-header-action">
-                <button onclick="updatePeriode()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-plus-circle"></i>
+                <button onclick="updatePeriode()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
                     Ubah Periode</button>
             </div>
         </div>
         <div class="card-body">
             <div class="box-body table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered">
                     <thead>
-                        <th width="5%">No</th>
+                        <th width="5%">No.</th>
                         <th>Tanggal</th>
                         <th>Penjualan</th>
                         <th>Pembelian</th>

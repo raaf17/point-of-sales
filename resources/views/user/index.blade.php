@@ -1,27 +1,22 @@
 @extends('layouts.master')
-
+@section('title', $title)
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">{{ __('field.purchase') }}</h4>
+            <h4 class="card-title">Users</h4>
             <div class="card-header-action">
-                <button onclick="addForm('{{ route('user.store') }}')" class="btn btn-success btn-xs btn-flat"><i
+                <button onclick="addForm('{{ route('user.store') }}')" class="btn btn-primary btn-xs btn-flat"><i
                     class="fa fa-plus-circle"></i> Tambah</button>
             </div>
         </div>
         <div class="card-body">
             <div class="box-body table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered">
                     <thead>
-                        <th width="5%">No</th>
+                        <th width="5%">No.</th>
                         <th>Nama</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Tempat Lahir</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Alamat</th>
-                        <th>Nomor Telepon</th>
                         <th>Email</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
             </div>
@@ -51,21 +46,6 @@
                     },
                     {
                         data: 'name'
-                    },
-                    {
-                        data: 'gender'
-                    },
-                    {
-                        data: 'placebirth'
-                    },
-                    {
-                        data: 'datebirth'
-                    },
-                    {
-                        data: 'address'
-                    },
-                    {
-                        data: 'phone'
                     },
                     {
                         data: 'email'

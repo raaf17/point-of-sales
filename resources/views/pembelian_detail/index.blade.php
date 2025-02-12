@@ -1,9 +1,5 @@
 @extends('layouts.master')
-
-@section('title')
-    PembelianEksternal
-@endsection
-
+@section('title', $title)
 @push('css')
     <style>
         .tampil-bayar {
@@ -76,15 +72,15 @@
                         </div>
                     </form>
 
-                    <table class="table table-stiped table-bordered table-pembelian">
+                    <table class="table table-striped table-bordered table-pembelian">
                         <thead>
-                            <th width="5%">No</th>
+                            <th width="5%">No.</th>
                             <th>Kode</th>
                             <th>Nama</th>
                             <th>Harga</th>
                             <th width="15%">Jumlah</th>
                             <th>Subtotal</th>
-                            <th width="15%"><i class="fa fa-cog"></i></th>
+                            <th width="8%"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
 

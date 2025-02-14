@@ -14,7 +14,8 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th width="5%">No.</th>
-                        <th>Kategori</th>
+                        <th>Kode Kategori</th>
+                        <th>Nama Kategori</th>
                         <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
@@ -42,6 +43,9 @@
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
+                    },
+                    {
+                        data: 'kode_kategori'
                     },
                     {
                         data: 'nama_kategori'

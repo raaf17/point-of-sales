@@ -25,6 +25,7 @@
                             <th>Nama</th>
                             <th>Telepon</th>
                             <th>Alamat</th>
+                            <th>Poin</th>
                             <th width="8%"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
@@ -70,6 +71,9 @@
                     },
                     {
                         data: 'alamat'
+                    },
+                    {
+                        data: 'poin'
                     },
                     {
                         data: 'aksi',

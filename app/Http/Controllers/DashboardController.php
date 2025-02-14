@@ -9,7 +9,9 @@ use App\Models\Pengeluaran;
 use App\Models\Penjualan;
 use App\Models\Produk;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -19,30 +21,37 @@ class DashboardController extends Controller
         $produk = Produk::count();
         $supplier = Supplier::count();
         $member = Member::count();
+        $pendapatan = DB::table('penjualan')
+            ->selectRaw("SUM(bayar) as total_pendapatan")
+            ->get()
+            ->pluck('total_pendapatan')
+            ->first();
 
-        $tanggal_awal = date('Y-m-01');
-        $tanggal_akhir = date('Y-m-d');
+        $sales = DB::table('penjualan')
+            ->selectRaw("DATE(created_at) as date, DAYNAME(created_at) as day, SUM(bayar) as total_sales")
+            ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+            ->groupBy('date', 'day')
+            ->orderBy('date')
+            ->get()
+            ->pluck('total_sales', 'day')
+            ->toArray();
 
-        $data_tanggal = array();
-        $data_pendapatan = array();
-
-        while (strtotime($tanggal_awal) <= strtotime($tanggal_akhir)) {
-            $data_tanggal[] = (int) substr($tanggal_awal, 8, 2);
-
-            $total_penjualan = Penjualan::where('created_at', 'LIKE', "%$tanggal_awal%")->sum('bayar');
-            $total_pembelian = Pembelian::where('created_at', 'LIKE', "%$tanggal_awal%")->sum('bayar');
-            $total_pengeluaran = Pengeluaran::where('created_at', 'LIKE', "%$tanggal_awal%")->sum('nominal');
-
-            $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
-            $data_pendapatan[] += $pendapatan;
-
-            $tanggal_awal = date('Y-m-d', strtotime("+1 day", strtotime($tanggal_awal)));
+        // Define all days for the last 7 days dynamically
+        Carbon::setLocale('id');
+        $allDays = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $day = Carbon::now()->subDays($i)->format('l'); // Get full day name (Monday, Tuesday, etc.)
+            $allDays[$day] = 0;
         }
 
-        $tanggal_awal = date('Y-m-01');
+        // Merge sales data with default days (ensuring missing days are included)
+        $salesByDay = array_merge($allDays, $sales);
+
+
+        $products = Produk::whereColumn('stok', '<', 'minimal_stok')->get();
 
         if (auth()->user()->level == 1) {
-            return view('admin.dashboard', compact('kategori', 'produk', 'supplier', 'member', 'tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan'), [
+            return view('admin.dashboard', compact('kategori', 'produk', 'supplier', 'member', 'salesByDay', 'pendapatan'), [
                 'title' => 'Dashboard'
             ]);
         } else {
@@ -50,5 +59,26 @@ class DashboardController extends Controller
                 'title' => 'Dashboard'
             ]);
         }
+    }
+
+    public function data()
+    {
+        $produk = Produk::whereColumn('stok', '<', 'minimal_stok')->get();
+
+        return datatables()
+            ->of($produk)
+            ->addIndexColumn()
+            ->editColumn('stok', function ($produk) {
+                $html = "";
+                if ($produk->stok == 0) {
+                    $html = '<span class="badge bg-danger">Stok Habis</span>';
+                } else {
+                    $html = '<span class="badge bg-warning">Sisa ' . $produk->stok . '</span>';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['stok'])
+            ->make(true);
     }
 }

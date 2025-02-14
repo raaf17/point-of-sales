@@ -15,7 +15,6 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
                 <form action="" method="post" class="form-produk">
                     @csrf
                     <table class="table table-striped table-bordered">
@@ -30,7 +29,6 @@
                             <th>Merk</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
-                            <th>Diskon</th>
                             <th>Stok</th>
                             <th width="8%"><i class="fa fa-cog"></i></th>
                         </thead>
@@ -83,9 +81,6 @@
                     },
                     {
                         data: 'harga_jual'
-                    },
-                    {
-                        data: 'diskon'
                     },
                     {
                         data: 'stok'

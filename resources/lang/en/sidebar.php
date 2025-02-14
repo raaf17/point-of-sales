@@ -4,6 +4,8 @@ return [
     'category' => 'Kategori',
     'product' => 'Produk',
     'member' => 'Member',
+    'supplier' => 'Supplier',
+    'kasir' => 'Kasir',
     'expenditure' => 'Pengeluaran',
     'purchase' => 'Pembelian',
     'sale' => 'Penjualan',

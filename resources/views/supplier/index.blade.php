@@ -1,29 +1,29 @@
 @extends('layouts.master')
 @section('title', $title)
-@section('breadcrumb')
-    @parent
-    <li class="active">Master Supplier</li>
-@endsection
-
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <button onclick="addForm('{{ route('supplier.store') }}')" class="btn btn-success btn-xs btn-flat"><i
-                            class="fa fa-plus-circle"></i> Tambah</button>
-                </div>
-                <div class="box-body table-responsive">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h4 class="card-title">Data Supplier</h4>
+            <div class="card-header-action">
+                <button onclick="addForm('{{ route('supplier.store') }}')" class="btn btn-primary"><i
+                        class="fa fa-plus-circle"></i> Tambah</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <form action="" method="post" class="form-member">
+                    @csrf
                     <table class="table table-striped table-bordered">
                         <thead>
                             <th width="5%">No.</th>
+                            <th>Kode Supplier</th>
                             <th>Nama</th>
                             <th>Telepon</th>
                             <th>Alamat</th>
                             <th width="8"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -48,6 +48,9 @@
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
+                    },
+                    {
+                        data: 'kode_supplier'
                     },
                     {
                         data: 'nama'

@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $setting->nama_perusahaan ? $setting->nama_perusahaan : config('app.name') }} &mdash; @yield('title')</title>
+    <title>{{ $setting->nama_perusahaan ? $setting->nama_perusahaan : config('app.name') }} &mdash; @yield('title')
+    </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/main/app.css">
-    <link rel="stylesheet" href="{{ asset('css') }}/app.css"/>
+    <link rel="stylesheet" href="{{ asset('css') }}/app.css" />
     <link rel="icon" href="{{ url($setting->path_logo) }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/pages/fontawesome.css">
     <link rel="stylesheet"
@@ -23,7 +24,9 @@
 
 <body>
     <div id="app">
-        @include('layouts.components.sidebar')
+        @if ($title !== 'Transaksi Baru')
+            @include('layouts.components.sidebar')
+        @endif
         <div id="main" class='layout-navbar'>
             @include('layouts.components.navbar')
             <div id="main-content">
@@ -48,6 +51,8 @@
 
     <script src="{{ asset('mazer') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
     <script src="{{ asset('mazer') }}/assets/static/js/components/dark.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
         function hapus(url) {
             Swal.fire({
@@ -66,7 +71,7 @@
             })
         }
     </script>
-    @if(session()->has('success'))
+    @if (session()->has('success'))
         <script>
             Toastify({
                 text: "{{ session('success') }}",

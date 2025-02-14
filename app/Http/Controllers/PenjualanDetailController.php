@@ -23,7 +23,7 @@ class PenjualanDetailController extends Controller
             $memberSelected = $penjualan->member ?? new Member();
 
             return view('penjualan_detail.index', compact('produk', 'member', 'diskon', 'id_penjualan', 'penjualan', 'memberSelected'), [
-                'title' => 'Penjualan Detail'
+                'title' => 'Transaksi Baru'
             ]);
         } else {
             if (auth()->user()->level == 1) {

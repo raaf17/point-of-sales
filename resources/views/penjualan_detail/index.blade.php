@@ -58,19 +58,21 @@
                         </div>
                         <div class="header-top-right">
                             <div class="dropdown">
-                                <a href="#" id="topbarUserDropdown"
-                                    class="user-dropdown d-flex align-items-center dropend dropdown-toggle "
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div class="avatar avatar-md2">
-                                        <img src="{{ url(auth()->user()->foto ?? '') }}">
-                                    </div>
-                                    <div class="text">
-                                        <h6 class="user-dropdown-name">{{ auth()->user()->name }}</h6>
-                                        <p class="user-dropdown-status text-sm text-muted">Administrator</p>
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600">{{ auth()->user()->name }}</h6>
+                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="{{ url(auth()->user()->foto ?? '') }}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-lg"
-                                    aria-labelledby="topbarUserDropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
+                                    style="min-width: 11rem;">
                                     <li>
                                         <h6 class="dropdown-header">Hello, {{ auth()->user()->name }}!</h6>
                                     </li>
@@ -83,8 +85,7 @@
                                     <form method="POST" action="{{ route('logout') }}">
                                         <li>
                                             @csrf
-                                            <a class="dropdown-item" href="#"
-                                                onclick="$('#logout-form').submit()">
+                                            <a class="dropdown-item" href="#" onclick="$('#logout-form').submit()">
                                                 <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a>
                                         </li>
                                     </form>

@@ -13,8 +13,8 @@
         <li class="submenu-item {{ $title === 'Members' ? 'active' : '' }}">
             <a href="{{ url('/member') }}" class="submenu-link">{{ __('sidebar.member') }}</a>
         </li>
-        <li class="submenu-item {{ $title === 'Supplier' ? 'active' : '' }}">
+        {{-- <li class="submenu-item {{ $title === 'Supplier' ? 'active' : '' }}">
             <a href="{{ url('/supplier') }}" class="submenu-link">{{ __('sidebar.supplier') }}</a>
-        </li>
+        </li> --}}
     </ul>
 </li>

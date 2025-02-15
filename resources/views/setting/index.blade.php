@@ -15,58 +15,44 @@
                         <i class="icon fa fa-check"></i> Perubahan berhasil disimpan
                     </div>
                     <div class="form-group row">
-                        <label for="nama_perusahaan" class="col-lg-2 control-label">Nama Usaha</label>
-                        <div class="col-lg-6">
+                        <label for="nama_perusahaan" class="col-lg-2 control-label">Nama Toko</label>
+                        <div class="col-lg-10">
                             <input type="text" name="nama_perusahaan" class="form-control" id="nama_perusahaan" required
                                 autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="telepon" class="col-lg-2 control-label">Telp</label>
-                        <div class="col-lg-6">
+                        <label for="telepon" class="col-lg-2 control-label">No. Telepon</label>
+                        <div class="col-lg-10">
                             <input type="text" name="telepon" class="form-control" id="telepon" required>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="alamat" class="col-lg-2 control-label">Alamat</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-10">
                             <textarea name="alamat" class="form-control" id="alamat" rows="3" required></textarea>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="path_logo" class="col-lg-2 control-label">Logo Mu</label>
-                        <div class="col-lg-4">
+                        <label for="path_logo" class="col-lg-2 control-label">Logo</label>
+                        <div class="col-lg-7">
                             <input type="file" name="path_logo" class="form-control" id="path_logo"
                                 onchange="preview('.tampil-logo', this.files[0])">
                             <span class="help-block with-errors"></span>
-                            <br>
-                            <div class="tampil-logo"></div>
                         </div>
-                    </div>
-                    {{-- <div class="form-group row">
-                        <label for="path_kartu_member" class="col-lg-2 control-label">Member</label>
-                        <div class="col-lg-4">
-                            <input type="file" name="path_kartu_member" class="form-control" id="path_kartu_member"
-                                onchange="preview('.tampil-kartu-member', this.files[0], 300)">
-                            <span class="help-block with-errors"></span>
-                            <br>
-                            <div class="tampil-kartu-member"></div>
-                        </div>
-                    </div> --}}
-                    <div class="form-group row">
-                        <label for="diskon" class="col-lg-2 control-label">Diskon Member</label>
-                        <div class="col-lg-2">
-                            <input type="number" name="diskon" class="form-control" id="diskon" required>
-                            <span class="help-block with-errors"></span>
+                        <div class="col-lg-3">
+                            <div class="p-3 shadow-sm" style="border-radius: 8px">
+                                <div class="tampil-logo"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="tipe_nota" class="col-lg-2 control-label">Tipe Nota</label>
-                        <div class="col-lg-2">
-                            <select name="tipe_nota" class="form-control" id="tipe_nota" required>
+                        <div class="col-lg-10">
+                            <select name="tipe_nota" class="form-select" id="tipe_nota" required>
                                 <option value="1">Nota Kecil</option>
                                 <option value="2">Nota Besar</option>
                             </select>
@@ -75,7 +61,7 @@
                     </div>
                 </div>
                 <div class="box-footer text-right">
-                    <button class="btn btn-sm btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    <button class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>

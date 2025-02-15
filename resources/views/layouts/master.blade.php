@@ -17,16 +17,13 @@
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/pages/datatables.css">
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/extensions/toastify-js/src/toastify.css" />
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/extensions/sweetalert2/sweetalert2.min.css" />
-    <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/shared/iconly.css" />
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/compiled/css/app-dark.css">
     @stack('css')
 </head>
 
 <body>
     <div id="app">
-        @if ($title !== 'Transaksi Baru')
-            @include('layouts.components.sidebar')
-        @endif
+        @include('layouts.components.sidebar')
         <div id="main" class='layout-navbar'>
             @include('layouts.components.navbar')
             <div id="main-content">

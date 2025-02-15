@@ -10,9 +10,9 @@
         {{-- <li class="submenu-item {{ $title === 'Pengeluaran' ? 'active' : '' }}">
             <a href="{{ url('/pengeluaran') }}">{{ __('sidebar.expenditure') }}</a>
         </li> --}}
-        <li class="submenu-item {{ $title === 'Pembelian' ? 'active' : '' }}">
+        {{-- <li class="submenu-item {{ $title === 'Pembelian' ? 'active' : '' }}">
             <a href="{{ url('/pembelian') }}">{{ __('sidebar.purchase') }}</a>
-        </li>
+        </li> --}}
         <li class="submenu-item {{ $title === 'Penjualan' ? 'active' : '' }}">
             <a href="{{ url('/penjualan') }}">{{ __('sidebar.sale') }}</a>
         </li>

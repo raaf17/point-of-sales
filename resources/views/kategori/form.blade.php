@@ -18,6 +18,13 @@
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="warna" class="col-lg-3 col-lg-offset-1 control-label">Warna</label>
+                        <div class="col-lg-9">
+                            <input type="text" name="warna" id="warna" class="form-control" required autofocus>
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>

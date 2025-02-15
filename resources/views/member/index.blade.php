@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Members</h4>
+            <h4 class="card-title">Data Member</h4>
             <div class="card-header-action">
                 <button onclick="addForm('{{ route('member.store') }}')"
                     class="btn btn-primary"><i
@@ -12,7 +12,6 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                {{-- {!! $dataTable->table(['class' => 'table table-striped table-bordered']) !!} --}}
                 <form action="" method="post" class="form-member">
                     @csrf
                     <table class="table table-striped table-bordered">

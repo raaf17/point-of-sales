@@ -51,14 +51,7 @@
                 @if (auth()->user()->level == 1)
                     @include('layouts.components.master-sidebar')
                     @include('layouts.components.transaksi-sidebar')
-
-                    <li class="sidebar-item {{ $title === 'Laporan' ? 'active' : '' }}">
-                        <a href="{{ url('/laporan') }}" class='sidebar-link'>
-                            <i class="bi bi-newspaper"></i>
-                            <span>Laporan</span>
-                        </a>
-                    </li>
-
+                    @include('layouts.components.laporan-sidebar')
                     @include('layouts.components.sistem-sidebar')
                 @else
                     <li class="sidebar-item {{ $title === 'Laporan' ? 'active' : '' }}">

@@ -65,20 +65,6 @@
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="minimal_stok" class="col-lg-3 col-lg-offset-1 control-label">Minimal Stok</label>
-                        <div class="col-lg-9">
-                            <input type="number" name="minimal_stok" id="minimal_stok" class="form-control" required value="0">
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="tgl_kadaluarsa" class="col-lg-3 col-lg-offset-1 control-label">Tanggal Kadaluarsa</label>
-                        <div class="col-lg-9">
-                            <input type="date" name="tgl_kadaluarsa" id="tgl_kadaluarsa" class="form-control" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>

@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Pembelian</h4>
+            <h4 class="card-title">Penjualan</h4>
             <div class="card-header-action">
                 <button onclick="updatePeriode()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
                     Ubah Periode</button>
@@ -15,10 +15,13 @@
                     <thead>
                         <th width="5%">No.</th>
                         <th>Tanggal</th>
-                        <th>Penjualan</th>
-                        <th>Pembelian</th>
-                        <th>Pengeluaran</th>
-                        <th>Pendapatan</th>
+                        <th>Kasir</th>
+                        <th>Pelanggan</th>
+                        <th>Tipe Pelanggan</th>
+                        <th>Total Pembelanjaan</th>
+                        <th>Diskon</th>
+                        <th>Poin Used</th>
+                        <th>Total Akhir</th>
                     </thead>
                 </table>
             </div>
@@ -29,8 +32,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
-    </script>
     <script>
         let table;
 

@@ -21,7 +21,7 @@ class LaporanController extends Controller
         }
 
         return view('laporan.index', compact('tanggalAwal', 'tanggalAkhir'), [
-            'title' => 'Laporan'
+            'title' => 'Laporan Penjualan'
         ]);
     }
 

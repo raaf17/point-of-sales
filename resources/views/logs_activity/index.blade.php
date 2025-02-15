@@ -4,10 +4,6 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Logs Activity</h4>
-            <div class="card-header-action">
-                <button onclick="addForm('{{ route('kategori.store') }}')" class="btn btn-primary"><i
-                        class="fa fa-plus-circle"></i> Tambah</button>
-            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

@@ -12,4 +12,6 @@ return [
     'log' => 'Logs Activity',
     'user' => 'Sistem User',
     'web' => 'Sistem Web',
+    'stokbarang' => 'Laporan Stok Barang',
+    'penjualan' => 'Laporan Penjualan',
 ];

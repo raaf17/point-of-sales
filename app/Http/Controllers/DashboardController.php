@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use App\Models\Member;
-use App\Models\Pembelian;
-use App\Models\Pengeluaran;
-use App\Models\Penjualan;
 use App\Models\Produk;
 use App\Models\Supplier;
 use Carbon\Carbon;
@@ -36,19 +33,14 @@ class DashboardController extends Controller
             ->pluck('total_sales', 'day')
             ->toArray();
 
-        // Define all days for the last 7 days dynamically
         Carbon::setLocale('id');
         $allDays = [];
         for ($i = 6; $i >= 0; $i--) {
-            $day = Carbon::now()->subDays($i)->format('l'); // Get full day name (Monday, Tuesday, etc.)
+            $day = Carbon::now()->subDays($i)->format('l');
             $allDays[$day] = 0;
         }
 
-        // Merge sales data with default days (ensuring missing days are included)
         $salesByDay = array_merge($allDays, $sales);
-
-
-        $products = Produk::whereColumn('stok', '<', 'minimal_stok')->get();
 
         if (auth()->user()->level == 1) {
             return view('admin.dashboard', compact('kategori', 'produk', 'supplier', 'member', 'salesByDay', 'pendapatan'), [

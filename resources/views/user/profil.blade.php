@@ -3,12 +3,12 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Pengaturan Profil</h4>
+            <h4 class="card-title">Setting Profil</h4>
         </div>
-        <div class="card-body">
-            <form action="{{ route('user.update_profil') }}" method="post" class="form-profil" data-toggle="validator"
-                enctype="multipart/form-data">
-                @csrf
+        <form action="{{ route('user.update_profil') }}" method="post" class="form-profil" data-toggle="validator"
+            enctype="multipart/form-data">
+            @csrf
+            <div class="card-body">
                 <div class="box-body">
                     <div class="alert alert-info alert-dismissible" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="name" class="col-lg-2 control-label">Nama</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-10">
                             <input type="text" name="name" class="form-control" id="name" required autofocus
                                 value="{{ $profil->name }}">
                             <span class="help-block with-errors"></span>
@@ -24,45 +24,49 @@
                     </div>
                     <div class="form-group row">
                         <label for="foto" class="col-lg-2 control-label">Profil</label>
-                        <div class="col-lg-4">
+                        <div class="col-lg-7">
                             <input type="file" name="foto" class="form-control" id="foto"
                                 onchange="preview('.tampil-foto', this.files[0])">
                             <span class="help-block with-errors"></span>
-                            <br>
-                            <div class="tampil-foto">
-                                <img src="{{ url($profil->foto ?? '/') }}" width="200">
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="p-3 shadow-sm" style="border-radius: 8px">
+                                <div class="tampil-foto">
+                                    <img src="{{ url($profil->foto ?? '/') }}" width="200">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="old_password" class="col-lg-2 control-label">Password Lama</label>
-                        <div class="col-lg-6">
-                            <input type="password" name="old_password" id="old_password" class="form-control"
-                                minlength="6">
+                        <div class="col-lg-10">
+                            <input type="password" name="old_password" id="old_password" class="form-control" minlength="6"
+                                placeholder="Password Lama">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="password" class="col-lg-2 control-label">Password</label>
-                        <div class="col-lg-6">
-                            <input type="password" name="password" id="password" class="form-control" minlength="6">
+                        <label for="password" class="col-lg-2 control-label">Password Baru</label>
+                        <div class="col-lg-10">
+                            <input type="password" name="password" id="password" class="form-control" minlength="6"
+                                placeholder="Password Baru">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="password_confirmation" class="col-lg-2 control-label">Konfirmasi Password</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-10">
                             <input type="password" name="password_confirmation" id="password_confirmation"
-                                class="form-control" data-match="#password">
+                                class="form-control" data-match="#password" placeholder="Konfirmasi Password">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                 </div>
-                <div class="box-footer text-right">
-                    <button class="btn btn-sm btn-flat btn-primary"><i class="fa fa-save"></i> Simpan Perubahan</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Simpan Perubahan</button>
+            </div>
+        </form>
     </div>
 @endsection
 

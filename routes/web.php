@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     DashboardController,
     KategoriController,
     LaporanController,
+    LaporanStokController,
     LogActivityController,
     ProdukController,
     MemberController,
@@ -85,7 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
             ->except('create', 'show', 'edit');
     });
 
-    Route::group(['middleware' => 'level:1'], function () {
+    Route::group(['middleware' => 'level:1,2'], function () {
+        Route::get('/laporan_stok/data', [LaporanStokController::class, 'data'])->name('laporan_stok.data');
+        Route::resource('/laporan_stok', LaporanStokController::class);
+
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');

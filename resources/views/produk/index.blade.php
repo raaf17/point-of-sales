@@ -3,14 +3,14 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Produk</h4>
+            <h4 class="card-title">Data Produk</h4>
             <div class="card-header-action">
                 <button onclick="addForm('{{ route('produk.store') }}')"
                     class="btn btn-primary"><i
                     class="fa fa-plus-circle"></i> Tambah</button>
                 <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')"
                     class="btn btn-danger"><i
-                    class="fa fa-trash"></i> Delete</button>
+                    class="fa fa-trash"></i> Hapus</button>
             </div>
         </div>
         <div class="card-body">
@@ -26,9 +26,9 @@
                             <th>Kode</th>
                             <th>Nama</th>
                             <th>Kategori</th>
-                            <th>Merk</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
+                            <th>Tanggal Pembelian</th>
                             <th>Stok</th>
                             <th width="8%"><i class="fa fa-cog"></i></th>
                         </thead>
@@ -74,13 +74,13 @@
                         data: 'nama_kategori'
                     },
                     {
-                        data: 'merk'
-                    },
-                    {
                         data: 'harga_beli'
                     },
                     {
                         data: 'harga_jual'
+                    },
+                    {
+                        data: 'created_at'
                     },
                     {
                         data: 'stok'

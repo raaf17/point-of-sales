@@ -4,6 +4,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Laporan Stok Barang</h4>
+            <div class="card-header-action">
+                <a class="btn btn-success btn-xs btn-flat" id="export"><i class="fa fa-file-export"></i>
+                    Excel</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -23,8 +27,6 @@
             </div>
         </div>
     </div>
-
-    @includeIf('produk.form')
 @endsection
 
 @push('scripts')
@@ -40,8 +42,7 @@
                 ajax: {
                     url: '{{ route('laporan_stok.data') }}',
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
@@ -63,6 +64,11 @@
                     },
                 ]
             });
+        });
+
+        $(document).on('click', '#export', function(e) {
+            e.preventDefault();
+            window.location.href = '<?= route('laporan_stok.export') ?>';
         });
     </script>
 @endpush

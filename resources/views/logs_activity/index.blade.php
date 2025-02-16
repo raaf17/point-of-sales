@@ -20,8 +20,6 @@
             </div>
         </div>
     </div>
-
-    @includeIf('kategori.form')
 @endsection
 
 @push('scripts')

@@ -3,18 +3,14 @@
 use App\Http\Controllers\{
     DashboardController,
     KategoriController,
-    LaporanController,
+    DiskonController,
     LaporanStokController,
     LogActivityController,
     ProdukController,
     MemberController,
-    PengeluaranController,
-    PembelianController,
-    PembelianDetailController,
     PenjualanController,
     PenjualanDetailController,
     SettingController,
-    SupplierController,
     UserController,
 };
 use Illuminate\Support\Facades\Route;
@@ -39,38 +35,60 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard/data', [DashboardController::class, 'data'])->name('dashboard.data');
 
     Route::group(['middleware' => 'level:1'], function () {
-        Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
-        Route::resource('/kategori', KategoriController::class);
+        Route::prefix('kategori')->group(function () {
+            Route::get('/', [KategoriController::class, 'index'])->name('kategori');
+            Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
+            Route::get('create', [KategoriController::class, 'create'])->name('kategori.create');
+            Route::post('store', [KategoriController::class, 'store'])->name('kategori.store');
+            Route::get('edit/{id?}', [KategoriController::class, 'edit'])->name('kategori.edit');
+            Route::get('view/{id?}', [KategoriController::class, 'view'])->name('kategori.view');
+            Route::post('update/{id?}', [KategoriController::class, 'update'])->name('kategori.update');
+            Route::get('delete/{id?}', [KategoriController::class, 'delete'])->name('kategori.delete');
+            Route::get('export', [KategoriController::class, 'export'])->name('kategori.export');
+        });
 
-        Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
-        Route::post('/produk/delete-selected', [ProdukController::class, 'deleteSelected'])->name('produk.delete_selected');
-        Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
-        Route::resource('/produk', ProdukController::class);
+        Route::prefix('produk')->group(function () {
+            Route::get('/', [ProdukController::class, 'index'])->name('produk');
+            Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
+            Route::get('create', [ProdukController::class, 'create'])->name('produk.create');
+            Route::post('store', [ProdukController::class, 'store'])->name('produk.store');
+            Route::get('edit/{id?}', [ProdukController::class, 'edit'])->name('produk.edit');
+            Route::get('view/{id?}', [ProdukController::class, 'view'])->name('produk.view');
+            Route::post('update/{id?}', [ProdukController::class, 'update'])->name('produk.update');
+            Route::get('delete/{id?}', [ProdukController::class, 'delete'])->name('produk.delete');
+            Route::get('export', [ProdukController::class, 'export'])->name('produk.export');
+            Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
+        });
 
-        Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
-        Route::post('/member/cetak-member', [MemberController::class, 'cetakMember'])->name('member.cetak_member');
-        Route::resource('/member', MemberController::class);
+        Route::prefix('member')->group(function () {
+            Route::get('/', [MemberController::class, 'index'])->name('member');
+            Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
+            Route::get('create', [MemberController::class, 'create'])->name('member.create');
+            Route::post('store', [MemberController::class, 'store'])->name('member.store');
+            Route::get('edit/{id?}', [MemberController::class, 'edit'])->name('member.edit');
+            Route::get('view/{id?}', [MemberController::class, 'view'])->name('member.view');
+            Route::post('update/{id?}', [MemberController::class, 'update'])->name('member.update');
+            Route::get('delete/{id?}', [MemberController::class, 'delete'])->name('member.delete');
+            Route::get('export', [MemberController::class, 'export'])->name('member.export');
+        });
 
-        Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-        Route::resource('/supplier', SupplierController::class);
-
-        Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
-        Route::resource('/pengeluaran', PengeluaranController::class);
-
-        Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
-        Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
-        Route::resource('/pembelian', PembelianController::class)
-            ->except('create');
-
-        Route::get('/pembelian_detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian_detail.data');
-        Route::get('/pembelian_detail/loadform/{diskon}/{total}', [PembelianDetailController::class, 'loadForm'])->name('pembelian_detail.load_form');
-        Route::resource('/pembelian_detail', PembelianDetailController::class)
-            ->except('create', 'show', 'edit');
+        Route::prefix('diskon')->group(function () {
+            Route::get('/', [DiskonController::class, 'index'])->name('diskon');
+            Route::get('/diskon/data', [DiskonController::class, 'data'])->name('diskon.data');
+            Route::get('create', [DiskonController::class, 'create'])->name('diskon.create');
+            Route::post('store', [DiskonController::class, 'store'])->name('diskon.store');
+            Route::get('edit/{id?}', [DiskonController::class, 'edit'])->name('diskon.edit');
+            Route::get('view/{id?}', [DiskonController::class, 'view'])->name('diskon.view');
+            Route::post('update/{id?}', [DiskonController::class, 'update'])->name('diskon.update');
+            Route::get('delete/{id?}', [DiskonController::class, 'delete'])->name('diskon.delete');
+            Route::get('export', [DiskonController::class, 'export'])->name('diskon.export');
+        });
 
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+        Route::get('export', [PenjualanController::class, 'export'])->name('penjualan.export');
     });
 
     Route::group(['middleware' => 'level:1,2'], function () {
@@ -89,22 +107,28 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'level:1,2'], function () {
         Route::get('/laporan_stok/data', [LaporanStokController::class, 'data'])->name('laporan_stok.data');
         Route::resource('/laporan_stok', LaporanStokController::class);
-
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
-        Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
+        Route::get('exportstok', [LaporanStokController::class, 'export'])->name('laporan_stok.export');
 
         Route::get('/logs_activity/data', [LogActivityController::class, 'data'])->name('logs_activity.data');
         Route::resource('/logs_activity', LogActivityController::class);
 
-        Route::get('/user/data', [UserController::class, 'data'])->name('user.data');
-        Route::resource('/user', UserController::class);
+        Route::prefix('user')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('user');
+            Route::get('/user/data', [UserController::class, 'data'])->name('user.data');
+            Route::get('create', [UserController::class, 'create'])->name('user.create');
+            Route::post('store', [UserController::class, 'store'])->name('user.store');
+            Route::get('edit/{id?}', [UserController::class, 'edit'])->name('user.edit');
+            Route::get('view/{id?}', [UserController::class, 'view'])->name('user.view');
+            Route::post('update/{id?}', [UserController::class, 'update'])->name('user.update');
+            Route::get('delete/{id?}', [UserController::class, 'delete'])->name('user.delete');
+            Route::get('export', [UserController::class, 'export'])->name('user.export');
+        });
 
         Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
         Route::get('/setting/first', [SettingController::class, 'show'])->name('setting.show');
         Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
     });
- 
+
     Route::group(['middleware' => 'level:1,2'], function () {
         Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');

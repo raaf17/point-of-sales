@@ -14,12 +14,12 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th width="5%">No.</th>
-                        <th>Tanggal</th>
                         <th>Kasir</th>
-                        <th>Pelanggan</th>
+                        <th>Tanggal & Waktu Transaksi</th>
+                        <th>Nama Pelanggan</th>
                         <th>Tipe Pelanggan</th>
                         <th>Total Pembelanjaan</th>
-                        <th>Diskon</th>
+                        <th>Diskon (Rp.)</th>
                         <th>Poin Used</th>
                         <th>Total Akhir</th>
                     </thead>

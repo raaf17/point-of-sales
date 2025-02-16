@@ -1,34 +1,28 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
-    <div class="modal-dialog modal-lg" role="document">
-        <form action="" method="post" class="form-horizontal">
-            @csrf
-            @method('post')
-
+    <div class="modal-dialog" role="document">
+        <form action="{{ route('penjualan.index') }}" method="get" data-toggle="validator" class="form-horizontal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"></h4>
+                    <h4 class="modal-title">Periode Laporan</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="nama" class="col-lg-3 col-lg-offset-1 control-label">Nama</label>
-                        <div class="col-lg-9">
-                            <input type="text" name="nama" id="nama" class="form-control" required autofocus>
+                        <label for="tanggal_awal" class="col-lg-2 col-lg-offset-1 control-label">Tanggal Awal</label>
+                        <div class="col-lg-10">
+                            <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control datepicker" required autofocus
+                                value="{{ request('tanggal_awal') }}"
+                                style="border-radius: 0 !important;">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="telepon" class="col-lg-3 col-lg-offset-1 control-label">Telepon</label>
-                        <div class="col-lg-9">
-                            <input type="text" name="telepon" id="telepon" class="form-control" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="alamat" class="col-lg-3 col-lg-offset-1 control-label">Alamat</label>
-                        <div class="col-lg-9">
-                            <textarea name="alamat" id="alamat" rows="3" class="form-control"></textarea>
+                        <label for="tanggal_akhir" class="col-lg-2 col-lg-offset-1 control-label">Tanggal Akhir</label>
+                        <div class="col-lg-10">
+                            <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control datepicker" required
+                                value="{{ request('tanggal_akhir') ?? date('Y-m-d') }}"
+                                style="border-radius: 0 !important;">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

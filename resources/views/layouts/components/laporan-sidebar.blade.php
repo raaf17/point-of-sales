@@ -8,7 +8,7 @@
             <a href="{{ url('/laporan_stok') }}" class="submenu-link">{{ __('sidebar.stokbarang') }}</a>
         </li>
         <li class="submenu-item {{ $title === 'Laporan Penjualan' ? 'active' : '' }}">
-            <a href="{{ url('/laporan') }}" class="submenu-link">{{ __('sidebar.penjualan') }}</a>
+            <a href="{{ url('/penjualan') }}">{{ __('sidebar.sale') }}</a>
         </li>
     </ul>
 </li>

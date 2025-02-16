@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -25,8 +26,9 @@ class UserController extends Controller
             ->addColumn('aksi', function ($user) {
                 return '
                 <div class="btn-group">
-                    <button type="button" onclick="editForm(`' . route('user.update', $user->id) . '`)" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
-                    <button type="button" onclick="deleteData(`' . route('user.destroy', $user->id) . '`)" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
+                    <button type="button" onclick="view(' . $user->id . ')" class="btn btn-xs btn-info btn-flat btn-sm"><i class="fa fa-eye"></i></button>
+                    <button type="button" onclick="edit(' . $user->id . ')" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
+                    <button type="button" onclick="destroy(' . $user->id . ')" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -34,43 +36,119 @@ class UserController extends Controller
             ->make(true);
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->level = 2;
-        $user->foto = '/img/user.jpg';
-        $user->save();
-
-        return response()->json('Data berhasil disimpan', 200);
+        return view('user.create');
     }
 
-    public function show($id)
+    public function store(Request $request)
+    {
+        $post = request()->all();
+        $validator = Validator::make($post, [
+            'nama_user' => 'required',
+        ], [
+            'required' => ':attribute is required.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'  => 'An input error occurred.',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'level' => 2,
+            'foto' => '/img/user.jpg',
+        ];
+        $query = User::create($data);
+
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal disimpan'
+            ]);
+        }
+    }
+
+    public function view($id)
     {
         $user = User::find($id);
+        return view('user.view', compact('user'));
+    }
 
-        return response()->json($user);
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view('user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
+        $post = request()->all();
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->has('password') && $request->password != "")
-            $user->password = bcrypt($request->password);
-        $user->update();
+        $validator = Validator::make($post, [
+            'nama_user' => 'required',
+        ], [
+            'required' => ':attribute is required.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'  => 'An input error occurred.',
+                'errors' => $validator->errors()
+            ], 400);
+        }
 
-        return response()->json('Data berhasil disimpan', 200);
+        $data = [
+            'nama_user' => $request->nama_user,
+            'warna' => $request->warna,
+        ];
+        if ($request->has('password') && $request->password != "") {
+            $data['password'] = bcrypt($request->password);
+        }
+        $query = $user->update($data);
+
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal disimpan'
+            ]);
+        }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
-        $user = User::find($id)->delete();
-
-        return response(null, 204);
+        $user = User::find($id);
+        if ($user) {
+            if ($user->delete()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data gagal dihapus'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
 
     public function profil()

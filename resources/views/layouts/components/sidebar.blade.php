@@ -50,7 +50,12 @@
                 </li>
                 @if (auth()->user()->level == 1)
                     @include('layouts.components.master-sidebar')
-                    @include('layouts.components.transaksi-sidebar')
+                    <li class="sidebar-item {{ $title === 'Transaksi Baru' ? 'active' : '' }}">
+                        <a href="{{ url('/transaksi/baru') }}" class='sidebar-link'>
+                            <i class="bi bi-kanban-fill"></i>
+                            <span>Kasir</span>
+                        </a>
+                    </li>
                     @include('layouts.components.laporan-sidebar')
                     @include('layouts.components.sistem-sidebar')
                 @else

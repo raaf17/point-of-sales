@@ -6,15 +6,14 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use PDF;
 
 class ProdukController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-
-        return view('produk.index', compact('kategori'), [
+        return view('produk.index', [
             'title' => 'Produk'
         ]);
     }
@@ -29,19 +28,17 @@ class ProdukController extends Controller
         return datatables()
             ->of($produk)
             ->addIndexColumn()
-            ->addColumn('select_all', function ($produk) {
-                return '
-                    <input type="checkbox" name="id_produk[]" value="' . $produk->id_produk . '">
-                ';
-            })
-            ->addColumn('kode_produk', function ($produk) {
-                return '<span class="label label-success">' . $produk->kode_produk . '</span>';
-            })
             ->addColumn('harga_beli', function ($produk) {
                 return format_uang($produk->harga_beli);
             })
-            ->addColumn('harga_jual', function ($produk) {
-                return format_uang($produk->harga_jual);
+            ->addColumn('harga_jual_1', function ($produk) {
+                return format_uang($produk->harga_beli + ($produk->harga_beli * 10 / 100));
+            })
+            ->addColumn('harga_jual_2', function ($produk) {
+                return format_uang($produk->harga_beli + ($produk->harga_beli * 20 / 100));
+            })
+            ->addColumn('harga_jual_3', function ($produk) {
+                return format_uang($produk->harga_beli + ($produk->harga_beli * 30 / 100));
             })
             ->addColumn('stok', function ($produk) {
                 return format_uang($produk->stok);
@@ -49,62 +46,149 @@ class ProdukController extends Controller
             ->addColumn('aksi', function ($produk) {
                 return '
                 <div class="btn-group">
-                    <button type="button" onclick="editForm(`' . route('produk.update', $produk->id_produk) . '`)" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
-                    <button type="button" onclick="deleteData(`' . route('produk.destroy', $produk->id_produk) . '`)" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
+                    <button type="button" onclick="view(' . $produk->id_produk . ')" class="btn btn-xs btn-info btn-flat btn-sm"><i class="fa fa-eye"></i></button>
+                    <button type="button" onclick="edit(' . $produk->id_produk . ')" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
+                    <button type="button" onclick="destroy(' . $produk->id_produk . ')" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
             ->editColumn('nama_kategori', function ($produk) {
                 return '<span class="badge bg-' . $produk->warna . '">' . $produk->nama_kategori . '</span>';
             })
-            ->editColumn('created_at', function ($data) {
-                return Carbon::parse($data->created_at)->format('M j, Y');
-            })
-            ->rawColumns(['aksi', 'kode_produk', 'select_all', 'nama_kategori', 'tgl_kadaluarsa', 'created_at'])
+            ->rawColumns(['aksi', 'nama_kategori'])
             ->make(true);
+    }
+
+    public function create()
+    {
+        return view('produk.create');
     }
 
     public function store(Request $request)
     {
+        $post = request()->all();
+        $validator = Validator::make($post, [
+            'nama_produk' => 'required',
+        ], [
+            'required' => ':attribute is required.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'  => 'An input error occurred.',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
         $produk = Produk::latest()->first() ?? new Produk();
-        $request['kode_produk'] = 'P' . tambah_nol_didepan((int)$produk->id_produk + 1, 6);
+        $data = [
+            'kode_produk' => 'P' . tambah_nol_didepan((int)$produk->id_produk + 1, 6),
+            'nama_produk' => $request->nama_produk,
+            'id_kategori' => $request->id_kategori,
+            'satuan' => $request->satuan,
+            'harga_beli' => $request->harga_beli,
+            'diskon' => $request->diskon,
+            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
+            'stok' => $request->stok,
+            'minimal_stok' => $request->minimal_stok,
+        ];
+        $query = Produk::create($data);
 
-        $produk = Produk::create($request->all());
-
-        return response()->json('Data berhasil disimpan', 200);
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal disimpan'
+            ]);
+        }
     }
 
-    public function show($id)
+    public function view($id)
+    {
+        $produk = Produk::select('produk.*', 'kategori.*')
+            ->join('kategori', 'kategori.id_kategori', '=', 'produk.id_kategori')
+            ->where('produk.id_produk', $id)
+            ->first();
+
+        $kategori = '<span class="badge bg-light-' . $produk->warna . '">' . $produk->nama_kategori . '</span>';
+        $harga_jual_1 = format_uang($produk->harga_beli + ($produk->harga_beli * 10 / 100));
+        $harga_jual_2 = format_uang($produk->harga_beli + ($produk->harga_beli * 20 / 100));
+        $harga_jual_3 = format_uang($produk->harga_beli + ($produk->harga_beli * 30 / 100));
+
+        return view('produk.view', compact('produk', 'kategori', 'harga_jual_1', 'harga_jual_2', 'harga_jual_3'));
+    }
+
+    public function edit($id)
     {
         $produk = Produk::find($id);
-
-        return response()->json($produk);
+        return view('produk.edit', compact('produk'));
     }
 
     public function update(Request $request, $id)
     {
+        $post = request()->all();
         $produk = Produk::find($id);
-        $produk->update($request->all());
-
-        return response()->json('Data berhasil disimpan', 200);
-    }
-
-    public function destroy($id)
-    {
-        $produk = Produk::find($id);
-        $produk->delete();
-
-        return response(null, 204);
-    }
-
-    public function deleteSelected(Request $request)
-    {
-        foreach ($request->id_produk as $id) {
-            $produk = Produk::find($id);
-            $produk->delete();
+        $validator = Validator::make($post, [
+            'nama_produk' => 'required',
+        ], [
+            'required' => ':attribute is required.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'  => 'An input error occurred.',
+                'errors' => $validator->errors()
+            ], 400);
         }
 
-        return response(null, 204);
+        $data = [
+            'nama_produk' => $request->nama_produk,
+            'id_kategori' => $request->id_kategori,
+            'satuan' => $request->satuan,
+            'harga_beli' => $request->harga_beli,
+            'diskon' => $request->diskon,
+            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
+            'stok' => $request->stok,
+            'minimal_stok' => $request->minimal_stok,
+        ];
+        $query = $produk->update($data);
+
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal disimpan'
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        $produk = Produk::find($id);
+        if ($produk) {
+            if ($produk->delete()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data gagal dihapus'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
 
     public function cetakBarcode(Request $request)

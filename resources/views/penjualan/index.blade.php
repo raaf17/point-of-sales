@@ -3,20 +3,27 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title">Data Penjualan</h4>
+            <h4 class="card-title fs-4">Total Pendapatan : <b>{{ 'Rp. ' . number_format($pendapatan, 2, ',', '.') }}</b></h4>
+            <div class="card-header-action">
+                <button onclick="updatePeriode()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
+                    Ubah Periode</button>
+                <a class="btn btn-success btn-xs btn-flat" id="export"><i class="fa fa-file-export"></i>
+                    Excel</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-penjualan table-bordered">
                     <thead>
                         <th width="5%">No.</th>
-                        <th>Tanggal</th>
-                        <th>Kode Member</th>
-                        <th>Total Item</th>
-                        <th>Total Harga</th>
-                        <th>Diskon</th>
-                        <th>Total Bayar</th>
                         <th>Kasir</th>
+                        <th>Tanggal & Waktu Transaksi</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Tipe Pelanggan</th>
+                        <th>Total Pembelanjaan</th>
+                        <th>Diskon (Rp.)</th>
+                        <th>Poin Used</th>
+                        <th>Total Akhir</th>
                         <th width="8%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
@@ -25,6 +32,7 @@
     </div>
 
     @includeIf('penjualan.detail')
+    @includeIf('penjualan.form')
 @endsection
 
 @push('scripts')
@@ -46,13 +54,16 @@
                         sortable: false
                     },
                     {
+                        data: 'kasir'
+                    },
+                    {
                         data: 'tanggal'
                     },
                     {
-                        data: 'kode_member'
+                        data: 'nama'
                     },
                     {
-                        data: 'total_item'
+                        data: 'tipe_member'
                     },
                     {
                         data: 'total_harga'
@@ -61,10 +72,10 @@
                         data: 'diskon'
                     },
                     {
-                        data: 'bayar'
+                        data: 'poin'
                     },
                     {
-                        data: 'kasir'
+                        data: 'bayar'
                     },
                     {
                         data: 'aksi',
@@ -100,6 +111,11 @@
                     },
                 ]
             })
+
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
         });
 
         function showDetail(url) {
@@ -124,5 +140,14 @@
                     });
             }
         }
+
+        function updatePeriode() {
+            $('#modal-form').modal('show');
+        }
+
+        $(document).on('click', '#export', function(e) {
+            e.preventDefault();
+            window.location.href = '<?= route('penjualan.export') ?>';
+        });
     </script>
 @endpush

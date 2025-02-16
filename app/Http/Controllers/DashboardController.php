@@ -16,7 +16,6 @@ class DashboardController extends Controller
     {
         $kategori = Kategori::count();
         $produk = Produk::count();
-        $supplier = Supplier::count();
         $member = Member::count();
         $pendapatan = DB::table('penjualan')
             ->selectRaw("SUM(bayar) as total_pendapatan")
@@ -43,7 +42,7 @@ class DashboardController extends Controller
         $salesByDay = array_merge($allDays, $sales);
 
         if (auth()->user()->level == 1) {
-            return view('admin.dashboard', compact('kategori', 'produk', 'supplier', 'member', 'salesByDay', 'pendapatan'), [
+            return view('admin.dashboard', compact('kategori', 'produk', 'member', 'salesByDay', 'pendapatan'), [
                 'title' => 'Dashboard'
             ]);
         } else {
@@ -62,7 +61,7 @@ class DashboardController extends Controller
             ->addIndexColumn()
             ->editColumn('stok', function ($produk) {
                 $html = "";
-                if ($produk->stok == 0) {
+                if ($produk->stok == 0 || $produk->stok < 0) {
                     $html = '<span class="badge bg-danger">Stok Habis</span>';
                 } else {
                     $html = '<span class="badge bg-warning">Sisa ' . $produk->stok . '</span>';

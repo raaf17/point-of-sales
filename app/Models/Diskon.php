@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Supplier extends Model
+class Diskon extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $table = 'supplier';
-    protected $primaryKey = 'id_supplier';
+    protected $table = 'diskon';
+    protected $primaryKey = 'id_diskon';
     protected $guarded = [];
 
     public function getActivitylogOptions(): LogOptions

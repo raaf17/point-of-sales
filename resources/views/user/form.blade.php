@@ -8,11 +8,11 @@
 </div>
 <div class="form-group">
     {!! Form::label('password', 'Password') !!}
-    {!! Form::number('password', null, ['class' => 'form-control', 'id' => 'password']) !!}
+    {!! Form::password('password', null, ['class' => 'form-control', 'id' => 'password']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('password_confirmation', 'Konfirmasi Password') !!}
-    {!! Form::number('password_confirmation', null, ['class' => 'form-control', 'id' => 'password_confirmation']) !!}
+    {!! Form::password('password_confirmation', null, ['class' => 'form-control', 'id' => 'password_confirmation']) !!}
 </div>
 @push('scripts')
     <script>

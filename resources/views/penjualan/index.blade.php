@@ -155,9 +155,18 @@
             $('#modal-form').modal('show');
         }
 
-        $(document).on('click', '#export', function(e) {
+        $('#export').on('click', function(e) {
             e.preventDefault();
-            window.location.href = '<?= route('penjualan.export') ?>';
+
+            let tanggal_awal = $('#tanggal_awal').val();
+            let tanggal_akhir = $('#tanggal_akhir').val();
+
+            if (!tanggal_awal || !tanggal_akhir) {
+                window.location.href = '<?= route('penjualan.export') ?>';
+            }
+
+            let url = `{{ route('penjualan.export') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
+                window.location.href = url;
         });
     </script>
 @endpush

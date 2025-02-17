@@ -24,7 +24,7 @@ class PenjualanController extends Controller
             ->get()
             ->pluck('total_pendapatan')
             ->first();
-            
+
         return view('penjualan.index', compact('pendapatan'), [
             'title' => 'Laporan Penjualan'
         ]);
@@ -115,9 +115,12 @@ class PenjualanController extends Controller
         $penjualan->bayar = $request->bayar;
         $penjualan->diterima = $request->diterima;
         $penjualan->update();
+
         $member = Member::find($request->id_member);
-        $member->poin += $request->poin;
-        $member->update();
+        if ($member) {
+            $member->poin += $request->poin_didapat;
+            $member->update();
+        }
 
         $detail = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();
         foreach ($detail as $item) {
@@ -216,9 +219,20 @@ class PenjualanController extends Controller
         return $pdf->stream('Transaksi-' . date('Y-m-d-his') . '.pdf');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        $penjualan = Penjualan::with('member')->orderBy('created_at', 'DESC')->get();
+        $tanggal_awal = $request->query('tanggal_awal') ?? '';
+        $tanggal_akhir = $request->query('tanggal_akhir') ?? '';
+
+        $startDateWithHour = $tanggal_awal . ' 00:00:00';
+        $endDateWithHour = $tanggal_akhir . ' 23:59:59';
+
+        if ($tanggal_awal != '') {
+            $penjualan = Penjualan::whereBetween('created_at', [$startDateWithHour, $endDateWithHour])->orderBy('created_at', 'DESC')->get();
+        } else {
+            $penjualan = Penjualan::with('member')->orderBy('created_at', 'DESC')->get();
+        }
+
 
         $spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();

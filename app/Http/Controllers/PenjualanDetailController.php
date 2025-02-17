@@ -118,9 +118,9 @@ class PenjualanDetailController extends Controller
         return response(null, 204);
     }
 
-    public function loadForm($diskon = 0, $total = 0, $diterima = 0, $poin = 0)
+    public function loadForm($total = 0, $diterima = 0)
     {
-        $subtotal = $total - $poin - ($diskon / 100 * $total);
+        $subtotal = $total;
         $pajak = 12 / 100 * $subtotal;
         $bayar = $subtotal + $pajak;
         $data    = [
@@ -128,7 +128,6 @@ class PenjualanDetailController extends Controller
             'bayar' => $bayar,
             'bayarrp' => format_uang($bayar),
             'kembali' => ($diterima != 0) ? $diterima - $bayar : 0,
-            'diskon' => $diskon / 100 * $total,
         ];
 
         return response()->json($data);

@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
     <div class="modal-dialog" role="document">
-        <form action="{{ route('penjualan.index') }}" method="get" data-toggle="validator" class="form-horizontal">
+        <form action="{{ route('penjualan.data') }}" method="get" data-toggle="validator" class="form-horizontal" id="modalFilter">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Periode Laporan</h4>

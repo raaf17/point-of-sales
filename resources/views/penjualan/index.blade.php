@@ -47,6 +47,10 @@
                 autoWidth: false,
                 ajax: {
                     url: '{{ route('penjualan.data') }}',
+                    data: function(d) {
+                        d.tanggal_awal = $('#tanggal_awal').val();
+                        d.tanggal_akhir = $('#tanggal_akhir').val();
+                    }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -116,6 +120,12 @@
                 format: 'yyyy-mm-dd',
                 autoclose: true
             });
+        });
+
+        $('#modalFilter').on('submit', function(e) {
+            e.preventDefault();
+            $('#modal-form').modal('hide');
+            table.ajax.reload();
         });
 
         function showDetail(url) {

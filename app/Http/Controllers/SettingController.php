@@ -43,8 +43,18 @@ class SettingController extends Controller
             $setting->path_kartu_member = "/img/$nama";
         }
 
-        $setting->update();
+        $query = $setting->update();
 
-        return response()->json('Data berhasil disimpan', 200);
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal disimpan'
+            ]);
+        }
     }
 }

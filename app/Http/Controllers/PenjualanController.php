@@ -30,9 +30,13 @@ class PenjualanController extends Controller
         ]);
     }
 
-    public function data()
+    public function data(Request $request)
     {
-        $penjualan = Penjualan::with('member')->orderBy('id_penjualan', 'desc')->get();
+        $penjualan = Penjualan::with('member')->orderBy('id_penjualan', 'desc');
+
+        if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+            $penjualan->whereBetween('created_at', [$request->tanggal_awal . ' 00:00:00', $request->tanggal_akhir . ' 23:59:59']);
+        }
 
         return datatables()
             ->of($penjualan)
@@ -47,7 +51,7 @@ class PenjualanController extends Controller
                 return tanggal_indonesia($penjualan->created_at, false);
             })
             ->editColumn('diskon', function ($penjualan) {
-                return $penjualan->diskon . '%';
+                return $penjualan->diskon;
             })
             ->editColumn('kasir', function ($penjualan) {
                 return $penjualan->user->name ?? '';
@@ -111,6 +115,9 @@ class PenjualanController extends Controller
         $penjualan->bayar = $request->bayar;
         $penjualan->diterima = $request->diterima;
         $penjualan->update();
+        $member = Member::find($request->id_member);
+        $member->poin += $request->poin;
+        $member->update();
 
         $detail = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();
         foreach ($detail as $item) {

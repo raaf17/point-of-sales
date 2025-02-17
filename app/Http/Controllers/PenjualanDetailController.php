@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Diskon;
 use App\Models\Member;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
@@ -15,13 +16,13 @@ class PenjualanDetailController extends Controller
     {
         $produk = Produk::orderBy('nama_produk')->get();
         $member = Member::orderBy('nama')->get();
-        $diskon = Setting::first()->diskon ?? 0;
+        $diskons = Diskon::orderBy('kode_diskon')->get();
 
         if ($id_penjualan = session('id_penjualan')) {
             $penjualan = Penjualan::find($id_penjualan);
-            $memberSelected = $penjualan->member ?? new Member();
+            $memberSelected = $penjualan->member->diskon ?? new Member();
 
-            return view('penjualan_detail.index', compact('produk', 'member', 'diskon', 'id_penjualan', 'penjualan', 'memberSelected'), [
+            return view('penjualan_detail.index', compact('produk', 'member', 'id_penjualan', 'penjualan', 'memberSelected', 'diskons'), [
                 'title' => 'Transaksi Baru'
             ]);
         } else {
@@ -47,7 +48,7 @@ class PenjualanDetailController extends Controller
             $row = array();
             $row['kode_produk'] = '<span class="label label-success">' . $item->produk['kode_produk'] . '</span';
             $row['nama_produk'] = $item->produk['nama_produk'];
-            $row['harga_jual']  = 'Rp. ' . format_uang($item->harga_jual);
+            $row['harga_jual']  = 'Rp. ' . format_uang($item->produk['harga_beli'] + ($item->produk['harga_beli'] * 30 / 100));
             $row['jumlah']      = '<input type="number" class="form-control input-sm quantity" data-id="' . $item->id_penjualan_detail . '" value="' . $item->jumlah . '">';
             $row['diskon']      = $item->diskon . '%';
             $row['subtotal']    = 'Rp. ' . format_uang($item->subtotal);
@@ -56,7 +57,9 @@ class PenjualanDetailController extends Controller
                                 </div>';
             $data[] = $row;
 
-            $total += $item->harga_jual * $item->jumlah - (($item->diskon * $item->jumlah) / 100 * $item->harga_jual);;
+            $harga_jual  = $item->produk['harga_beli'] + ($item->produk['harga_beli'] * 30 / 100);
+
+            $total += $harga_jual * $item->jumlah - (($item->diskon * $item->jumlah) / 100 * $harga_jual);;
             $total_item += $item->jumlah;
         }
         $data[] = [
@@ -88,11 +91,11 @@ class PenjualanDetailController extends Controller
         $detail = new PenjualanDetail();
         $detail->id_penjualan = $request->id_penjualan;
         $detail->id_produk = $produk->id_produk;
-        $detail->harga_jual = $produk->harga_jual;
+        $detail->harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
         $detail->jumlah = 1;
         $detail->diskon = $produk->diskon;
-        // $detail->subtotal = $detail->harga_jual * $request->jumlah - (($detail->diskon * $request->jumlah) / 100 * $detail->harga_jual);
-        $detail->subtotal = ($produk->harga_jual - ($produk->diskon / 100 * $produk->harga_jual)) + (12 / 100 * ($produk->harga_jual - ($produk->diskon / 100 * $produk->harga_jual)));
+        $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
+        $detail->subtotal = $harga_jual - ($produk->diskon / 100 * $harga_jual);
         $detail->save();
 
         return response()->json('Data berhasil disimpan', 200);
@@ -102,7 +105,8 @@ class PenjualanDetailController extends Controller
     {
         $detail = PenjualanDetail::find($id);
         $detail->jumlah = $request->jumlah;
-        $detail->subtotal = $detail->harga_jual * $request->jumlah - (($detail->diskon * $request->jumlah) / 100 * $detail->harga_jual);
+        $harga_jual = ($detail->harga_beli + ($detail->harga_beli * 30 / 100));
+        $detail->subtotal = $harga_jual * $request->jumlah - (($detail->diskon * $request->jumlah) / 100 * $harga_jual);
         $detail->update();
     }
 
@@ -114,17 +118,17 @@ class PenjualanDetailController extends Controller
         return response(null, 204);
     }
 
-    public function loadForm($diskon = 0, $total = 0, $diterima = 0)
+    public function loadForm($diskon = 0, $total = 0, $diterima = 0, $poin = 0)
     {
-        $bayar   = $total - ($diskon / 100 * $total);
-        $kembali = ($diterima != 0) ? $diterima - $bayar : 0;
+        $subtotal = $total - $poin - ($diskon / 100 * $total);
+        $pajak = 12 / 100 * $subtotal;
+        $bayar = $subtotal + $pajak;
         $data    = [
-            'totalrp' => format_uang($total),
+            'totalrp' => $total,
             'bayar' => $bayar,
             'bayarrp' => format_uang($bayar),
-            'terbilang' => ucwords(terbilang($bayar) . ' Rupiah'),
-            'kembalirp' => format_uang($kembali),
-            'kembali_terbilang' => ucwords(terbilang($kembali) . ' Rupiah'),
+            'kembali' => ($diterima != 0) ? $diterima - $bayar : 0,
+            'diskon' => $diskon / 100 * $total,
         ];
 
         return response()->json($data);

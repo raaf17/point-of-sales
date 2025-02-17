@@ -76,25 +76,26 @@
             $('.form-setting').validator().on('submit', function(e) {
                 if (!e.preventDefault()) {
                     $.ajax({
-                            url: $('.form-setting').attr('action'),
-                            type: $('.form-setting').attr('method'),
-                            data: new FormData($('.form-setting')[0]),
-                            async: false,
-                            processData: false,
-                            contentType: false
-                        })
-                        .done(response => {
+                        url: $('.form-setting').attr('action'),
+                        type: $('.form-setting').attr('method'),
+                        data: new FormData($('.form-setting')[0]),
+                        async: false,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
                             showData();
-                            $('.alert').fadeIn();
-
-                            setTimeout(() => {
-                                $('.alert').fadeOut();
-                            }, 3000);
-                        })
-                        .fail(errors => {
-                            alert('Tidak dapat menyimpan data');
-                            return;
-                        });
+                            if (response.success) {
+                                toastr.success('Success', response.message);
+                            } else {
+                                toastr.error('Failed', response.message);
+                            }
+                            bootbox.hideAll();
+                        },
+                        error: function(error) {
+                            var response = JSON.parse(error.responseText);
+                            $('.form-setting').prepend(validation(response))
+                        }
+                    })
                 }
             });
         });

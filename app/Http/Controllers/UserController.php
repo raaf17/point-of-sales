@@ -46,8 +46,12 @@ class UserController extends Controller
         $post = request()->all();
         $validator = Validator::make($post, [
             'nama_user' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:8'
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'unique:user' => 'Email sudah dipakai',
+            'min:8' => 'Password minimal 8 karakter'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -57,7 +61,7 @@ class UserController extends Controller
         }
 
         $data = [
-            'name' => $request->name,
+            'name' => $request->nama_user,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'level' => 2,

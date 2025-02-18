@@ -13,7 +13,6 @@
     <link rel="stylesheet"
         href="{{ asset('mazer') }}/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/pages/datatables.css">
-    <link rel="stylesheet" href="{{ asset('mazer') }}/assets/extensions/toastify-js/src/toastify.css" />
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/extensions/sweetalert2/sweetalert2.min.css" />
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/css/shared/iconly.css" />
     <link rel="stylesheet" href="{{ asset('mazer') }}/assets/compiled/css/app-dark.css">
@@ -43,7 +42,6 @@
 </head>
 
 <body>
-    <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
         <div id="main" class="layout-horizontal">
             <header class="mb-5">
@@ -58,7 +56,7 @@
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
                                             <h6 class="mb-0 text-gray-600">{{ auth()->user()->name }}</h6>
-                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                            <p class="mb-0 text-sm text-gray-600">{{ auth()->user()->level == 1 ? 'Administrator' : 'Kasir' }}</p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
@@ -122,11 +120,12 @@
     <script src="{{ asset('mazer') }}/assets/extensions/jquery/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="{{ asset('mazer') }}/assets/js/pages/datatables.js"></script>
-    <script src="{{ asset('mazer') }}/assets/extensions/toastify-js/src/toastify.js"></script>
-    <script src="{{ asset('mazer') }}/assets/js/pages/toastify.js"></script>
 
     <script src="{{ asset('mazer') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
     <script src="{{ asset('mazer') }}/assets/static/js/components/dark.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
+        integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @stack('scripts')
 </body>
 

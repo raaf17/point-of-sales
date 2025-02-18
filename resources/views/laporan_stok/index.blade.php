@@ -18,9 +18,8 @@
                             <th width="5%">No.</th>
                             <th>Kode Produk</th>
                             <th>Nama Produk</th>
-                            <th>Tanggal Pembelian</th>
-                            <th>Tanggal Kadaluarsa</th>
                             <th>Stok</th>
+                            <th width="3"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
                 </form>
@@ -54,13 +53,10 @@
                         data: 'nama_produk'
                     },
                     {
-                        data: 'created_at'
-                    },
-                    {
-                        data: 'tgl_kadaluarsa'
-                    },
-                    {
                         data: 'stok'
+                    },
+                    {
+                        data: 'aksi'
                     },
                 ]
             });
@@ -69,6 +65,24 @@
         $(document).on('click', '#export', function(e) {
             e.preventDefault();
             window.location.href = '<?= route('laporan_stok.export') ?>';
+        });
+
+        $(document).on('click', '.view-btn', function() {
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: '{{ route('laporan_stok.view') }}/' + id,
+                type: 'GET',
+                success: function(response) {
+                    bootbox.dialog({
+                        title: 'Detail Stok Barang',
+                        message: response,
+                    })
+                },
+                error: function(xhr) {
+                    bootbox.alert('Terjadi kesalahan! Coba lagi.');
+                }
+            });
         });
     </script>
 @endpush

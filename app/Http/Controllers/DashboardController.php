@@ -54,20 +54,23 @@ class DashboardController extends Controller
 
     public function data()
     {
-        $produk = Produk::whereColumn('stok', '<', 'minimal_stok')->get();
+        $produk = Produk::with('stok')
+            ->whereHas('stok', function ($query) {
+                $query->whereColumn('stok', '<', 'produk.minimal_stok');
+            })
+            ->get();
 
         return datatables()
             ->of($produk)
             ->addIndexColumn()
             ->editColumn('stok', function ($produk) {
-                $html = "";
-                if ($produk->stok == 0 || $produk->stok < 0) {
-                    $html = '<span class="badge bg-danger">Stok Habis</span>';
-                } else {
-                    $html = '<span class="badge bg-warning">Sisa ' . $produk->stok . '</span>';
-                }
+                $totalStok = $produk->stok->sum('stok');
 
-                return $html;
+                if ($totalStok == 0) {
+                    return '<span class="badge bg-danger">Stok Habis</span>';
+                } else {
+                    return '<span class="badge bg-warning">Sisa ' . $totalStok . '</span>';
+                }
             })
             ->rawColumns(['stok'])
             ->make(true);

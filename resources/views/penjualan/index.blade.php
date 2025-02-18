@@ -5,7 +5,7 @@
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title fs-4">Total Pendapatan : <b>{{ 'Rp. ' . number_format($pendapatan, 2, ',', '.') }}</b></h4>
             <div class="card-header-action">
-                <button onclick="updatePeriode()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
+                <button onclick="filter()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
                     Ubah Periode</button>
                 <a class="btn btn-success btn-xs btn-flat" id="export"><i class="fa fa-file-export"></i>
                     Excel</a>
@@ -32,7 +32,6 @@
     </div>
 
     @includeIf('penjualan.detail')
-    @includeIf('penjualan.form')
 @endsection
 
 @push('scripts')
@@ -122,12 +121,6 @@
             });
         });
 
-        $('#modalFilter').on('submit', function(e) {
-            e.preventDefault();
-            $('#modal-form').modal('hide');
-            table.ajax.reload();
-        });
-
         function showDetail(url) {
             $('#modal-detail').modal('show');
 
@@ -151,22 +144,48 @@
             }
         }
 
-        function updatePeriode() {
-            $('#modal-form').modal('show');
-        }
-
         $('#export').on('click', function(e) {
             e.preventDefault();
 
-            let tanggal_awal = $('#tanggal_awal').val();
-            let tanggal_akhir = $('#tanggal_akhir').val();
+            let tanggal_awal = $('#tanggal_awal').val() || localStorage.getItem('tanggal_awal');
+            let tanggal_akhir = $('#tanggal_akhir').val() || localStorage.getItem('tanggal_akhir');
 
             if (!tanggal_awal || !tanggal_akhir) {
                 window.location.href = '<?= route('penjualan.export') ?>';
             }
 
             let url = `{{ route('penjualan.export') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
-                window.location.href = url;
+            window.location.href = url;
+        });
+
+
+        function filter() {
+            $.ajax({
+                url: '{{ route('penjualan.filter') }}',
+                success: function(response) {
+                    bootbox.dialog({
+                        title: 'Periode Laporan',
+                        message: response,
+                    })
+                }
+            })
+        }
+
+        function applyFilter() {
+            localStorage.setItem('tanggal_awal', $('#tanggal_awal').val());
+            localStorage.setItem('tanggal_akhir', $('#tanggal_akhir').val());
+
+            bootbox.hideAll();
+            table.ajax.reload();
+        }
+
+        $(document).on('shown.bs.modal', function() {
+            if (localStorage.getItem('tanggal_awal')) {
+                $('#tanggal_awal').val(localStorage.getItem('tanggal_awal'));
+            }
+            if (localStorage.getItem('tanggal_akhir')) {
+                $('#tanggal_akhir').val(localStorage.getItem('tanggal_akhir'));
+            }
         });
     </script>
 @endpush

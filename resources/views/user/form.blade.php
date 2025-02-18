@@ -1,6 +1,6 @@
 <div class="form-group">
-    {!! Form::label('name', 'Nama Lengkap') !!}
-    {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) !!}
+    {!! Form::label('nama_user', 'Nama Lengkap') !!}
+    {!! Form::text('nama_user', null, ['class' => 'form-control', 'id' => 'nama_user']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('email', 'Email') !!}
@@ -8,33 +8,5 @@
 </div>
 <div class="form-group">
     {!! Form::label('password', 'Password') !!}
-    {!! Form::password('password', null, ['class' => 'form-control', 'id' => 'password']) !!}
+    {!! Form::text('password', null, ['class' => 'form-control', 'id' => 'password']) !!}
 </div>
-<div class="form-group">
-    {!! Form::label('password_confirmation', 'Konfirmasi Password') !!}
-    {!! Form::password('password_confirmation', null, ['class' => 'form-control', 'id' => 'password_confirmation']) !!}
-</div>
-@push('scripts')
-    <script>
-        function validateForm(input) {
-            var passwordInput = document.getElementById('password');
-            var password = passwordInput.value;
-
-            var regex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{12,}$/;
-
-            var isValid = regex.test(password);
-
-            var errorMessage = '';
-            if (!isValid) {
-                errorMessage = 'Password minimal berisikan 12 karakter, 1 Kapital, Huruf kecil, Angka, Karakter khusus.';
-            }
-
-            var errorElement = passwordInput.parentElement.querySelector('.help-block');
-            errorElement.textContent = errorMessage;
-            errorElement.style.color = isValid ? '' : 'red';
-            passwordInput.style.border = isValid ? '' : '1px solid red';
-
-            return isValid;
-        }
-    </script>
-@endpush

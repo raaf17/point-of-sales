@@ -24,11 +24,6 @@ class MemberController extends Controller
         return datatables()
             ->of($member)
             ->addIndexColumn()
-            ->addColumn('select_all', function ($produk) {
-                return '
-                    <input type="checkbox" name="id_member[]" value="' . $produk->id_member . '">
-                ';
-            })
             ->addColumn('kode_member', function ($member) {
                 return '<span class="label label-success">' . $member->kode_member . '<span>';
             })
@@ -41,7 +36,7 @@ class MemberController extends Controller
                 </div>
                 ';
             })
-            ->rawColumns(['aksi', 'select_all', 'kode_member'])
+            ->rawColumns(['aksi', 'kode_member'])
             ->make(true);
     }
 
@@ -72,6 +67,7 @@ class MemberController extends Controller
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
             'tipe_member' => $request->tipe_member,
+            'poin' => 0,
         ];
         $query = Member::create($data);
 

@@ -6,8 +6,7 @@
             <h4 class="card-title">Setting Toko</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('setting.update') }}" method="post" class="form-setting" data-toggle="validator"
-                enctype="multipart/form-data">
+            <form action="" method="" class="form-setting" enctype="multipart/form-data">
                 @csrf
                 <div class="box-body">
                     <div class="alert alert-info alert-dismissible" style="display: none;">
@@ -61,7 +60,7 @@
                     </div>
                 </div>
                 <div class="box-footer text-right">
-                    <button class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    <button class="btn btn-flat btn-primary" onclick="store()"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>
@@ -72,33 +71,32 @@
     <script>
         $(function() {
             showData();
-
-            $('.form-setting').validator().on('submit', function(e) {
-                if (!e.preventDefault()) {
-                    $.ajax({
-                        url: $('.form-setting').attr('action'),
-                        type: $('.form-setting').attr('method'),
-                        data: new FormData($('.form-setting')[0]),
-                        async: false,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            showData();
-                            if (response.success) {
-                                toastr.success('Success', response.message);
-                            } else {
-                                toastr.error('Failed', response.message);
-                            }
-                            bootbox.hideAll();
-                        },
-                        error: function(error) {
-                            var response = JSON.parse(error.responseText);
-                            $('.form-setting').prepend(validation(response))
-                        }
-                    })
-                }
-            });
         });
+
+        function store() {
+            var formData = new FormData($('.form-setting')[0]);
+
+            $.ajax({
+                url: '{{ route('setting.update') }}',
+                type: 'POST',
+                data: formData,
+                dataType: 'JSON',
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Success', response.message);
+                    } else {
+                        toastr.error('Failed', response.message);
+                    }
+                    bootbox.hideAll();
+                },
+                error: function(error) {
+                    var response = JSON.parse(error.responseText);
+                    $('.form-setting').prepend(validation(response))
+                }
+            })
+        }
 
         function showData() {
             $.get('{{ route('setting.show') }}')

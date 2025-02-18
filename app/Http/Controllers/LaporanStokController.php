@@ -15,41 +15,45 @@ class LaporanStokController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-
-        return view('laporan_stok.index', compact('kategori'), [
+        return view('laporan_stok.index', [
             'title' => 'Laporan Stok Barang'
         ]);
     }
 
     public function data()
     {
-        $produk = Produk::select('kode_produk', 'nama_produk', 'stok', 'tgl_kadaluarsa', 'created_at')->orderBy('kode_produk', 'asc')->get();
+        $produk = Produk::with('stok')->orderBy('kode_produk', 'asc')->get();
 
         return datatables()
             ->of($produk)
             ->addIndexColumn()
-            ->editColumn('tgl_kadaluarsa', function ($produk) {
-                $html = "";
-                $now = date('Y-m-d');
-                $exp_date = $produk->tgl_kadaluarsa;
-                $diff_days = (strtotime($exp_date) - strtotime($now)) / (60 * 60 * 24);
-
-                if ($now == $exp_date || $now > $exp_date) {
-                    $html = '<span class="badge bg-danger">Produk Kadaluarsa</span>';
-                } elseif ($diff_days > 0 && $diff_days <= 7) {
-                    $html = $exp_date . ' (Hampir Kadaluarsa)';
-                } else {
-                    $html = $exp_date;
-                }
-
-                return $html;
+            ->addColumn('aksi', function ($produk) {
+                return '
+                <div class="btn-group">
+                    <button type="button" class="btn btn-xs btn-info btn-flat btn-sm view-btn" data-id="' . $produk->id_produk . '">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                ';
             })
-            ->editColumn('created_at', function ($produk) {
-                return Carbon::parse($produk->created_at)->format('M j, Y');
+            ->addColumn('stok', function ($produk) {
+                return $produk->stok->where('tgl_kadaluarsa', '>=', now())->sum('stok');
             })
-            ->rawColumns(['created_at', 'tgl_kadaluarsa'])
+            ->rawColumns(['stok', 'aksi'])
             ->make(true);
+    }
+
+    public function view($id)
+    {
+        $produk = Produk::with(['stok' => function ($query) {
+            $query->orderBy('tgl_kadaluarsa', 'asc'); // Urutkan stok berdasarkan tgl_kadaluarsa
+        }])->find($id);
+
+        if (!$produk) {
+            return response()->json(['error' => 'Produk tidak ditemukan!'], 404);
+        }
+
+        return view('laporan_stok.view', compact('produk'));
     }
 
     public function export()

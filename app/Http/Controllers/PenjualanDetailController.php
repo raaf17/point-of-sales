@@ -91,7 +91,16 @@ class PenjualanDetailController extends Controller
         $detail = new PenjualanDetail();
         $detail->id_penjualan = $request->id_penjualan;
         $detail->id_produk = $produk->id_produk;
-        $detail->harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
+        if($request->tipe_member_id) {
+            if ($request->tipe_member_id == 'Diamond') {
+                $harga_jual = $produk->harga_beli + ($produk->harga_beli * 10 / 100);
+            } elseif ($request->tipe_member_id == 'Gold') {
+                $harga_jual = $produk->harga_beli + ($produk->harga_beli * 20 / 100);
+            }
+        } else {
+            $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
+        }
+        $detail->harga_jual = $harga_jual;
         $detail->jumlah = 1;
         $detail->diskon = $produk->diskon;
         $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
@@ -105,7 +114,15 @@ class PenjualanDetailController extends Controller
     {
         $detail = PenjualanDetail::find($id);
         $detail->jumlah = $request->jumlah;
-        $harga_jual = ($detail->harga_beli + ($detail->harga_beli * 30 / 100));
+        if($request->tipe_member_id) {
+            if ($request->tipe_member_id == 'Diamond') {
+                $harga_jual = $detail->harga_beli + ($detail->harga_beli * 10 / 100);
+            } elseif ($request->tipe_member_id == 'Gold') {
+                $harga_jual = $detail->harga_beli + ($detail->harga_beli * 20 / 100);
+            }
+        } else {
+            $harga_jual = $detail->harga_beli + ($detail->harga_beli * 30 / 100);
+        }
         $detail->subtotal = $harga_jual * $request->jumlah - (($detail->diskon * $request->jumlah) / 100 * $harga_jual);
         $detail->update();
     }

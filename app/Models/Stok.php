@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Produk extends Model
+class Stok extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
 
-    protected $table = 'produk';
-    protected $primaryKey = 'id_produk';
+    protected $table = 'stok';
+    protected $primaryKey = 'id_stok';
     protected $guarded = [];
     public $timestamps = true;
 
@@ -23,10 +23,5 @@ class Produk extends Model
     {
         return LogOptions::defaults()
             ->logUnguarded('*');
-    }
-
-    public function stok()
-    {
-        return $this->hasMany(Stok::class, 'id_produk');
     }
 }

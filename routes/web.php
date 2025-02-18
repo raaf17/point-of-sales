@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [ProdukController::class, 'index'])->name('produk');
             Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
             Route::get('create', [ProdukController::class, 'create'])->name('produk.create');
+            Route::get('addqty/{id?}', [ProdukController::class, 'addQty'])->name('produk.addqty');
+            Route::post('storeqty/{id?}', [ProdukController::class, 'storeQty'])->name('produk.storeqty');
             Route::post('store', [ProdukController::class, 'store'])->name('produk.store');
             Route::get('edit/{id?}', [ProdukController::class, 'edit'])->name('produk.edit');
             Route::get('view/{id?}', [ProdukController::class, 'view'])->name('produk.view');
@@ -83,12 +85,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('delete/{id?}', [DiskonController::class, 'delete'])->name('diskon.delete');
             Route::get('export', [DiskonController::class, 'export'])->name('diskon.export');
         });
-
-        Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
-        Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
-        Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
-        Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
-        Route::get('export', [PenjualanController::class, 'export'])->name('penjualan.export');
     });
 
     Route::group(['middleware' => 'level:1,2'], function () {
@@ -102,12 +98,20 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transaksi/loadform/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi.load_form');
         Route::resource('/transaksi', PenjualanDetailController::class)
             ->except('create', 'show', 'edit');
+
+        Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
+        Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+        Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
+        Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+        Route::get('export', [PenjualanController::class, 'export'])->name('penjualan.export');
+        Route::get('filter', [PenjualanController::class, 'filter'])->name('penjualan.filter');
     });
 
-    Route::group(['middleware' => 'level:1,2'], function () {
+    Route::group(['middleware' => 'level:1'], function () {
         Route::get('/laporan_stok/data', [LaporanStokController::class, 'data'])->name('laporan_stok.data');
         Route::resource('/laporan_stok', LaporanStokController::class);
         Route::get('exportstok', [LaporanStokController::class, 'export'])->name('laporan_stok.export');
+        Route::get('view/{id?}', [LaporanStokController::class, 'view'])->name('laporan_stok.view');
 
         Route::get('/logs_activity/data', [LogActivityController::class, 'data'])->name('logs_activity.data');
         Route::resource('/logs_activity', LogActivityController::class);

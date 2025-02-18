@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Stok;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use PDF;
@@ -20,9 +21,11 @@ class ProdukController extends Controller
 
     public function data()
     {
-        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+        $produk = Produk::with('stok')
+            ->leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+            // ->leftJoin('stok', 'stok.id_produk', 'produk.id_produk')
             ->select('produk.*', 'nama_kategori', 'warna')
-            ->orderBy('kode_produk', 'asc')
+            ->orderBy('kode_produk', 'DESC')
             ->get();
 
         return datatables()
@@ -41,11 +44,12 @@ class ProdukController extends Controller
                 return format_uang($produk->harga_beli + ($produk->harga_beli * 30 / 100));
             })
             ->addColumn('stok', function ($produk) {
-                return format_uang($produk->stok);
+                return $produk->stok->where('tgl_kadaluarsa', '>=', now())->sum('stok');
             })
             ->addColumn('aksi', function ($produk) {
                 return '
                 <div class="btn-group">
+                    <button type="button" onclick="addQty(' . $produk->id_produk . ')" class="btn btn-xs btn-primary btn-flat btn-sm add-stok-btn"><i class="fa fa-plus"></i></button>
                     <button type="button" onclick="view(' . $produk->id_produk . ')" class="btn btn-xs btn-info btn-flat btn-sm"><i class="fa fa-eye"></i></button>
                     <button type="button" onclick="edit(' . $produk->id_produk . ')" class="btn btn-xs btn-warning btn-flat btn-sm"><i class="fa fa-pen"></i></button>
                     <button type="button" onclick="destroy(' . $produk->id_produk . ')" class="btn btn-xs btn-danger btn-flat btn-sm"><i class="fa fa-trash"></i></button>
@@ -57,6 +61,48 @@ class ProdukController extends Controller
             })
             ->rawColumns(['aksi', 'nama_kategori'])
             ->make(true);
+    }
+
+    public function addQty($id)
+    {
+        $id = $id;
+        return view('produk.addqty', compact('id'));
+    }
+
+    public function storeQty(Request $request, $id)
+    {
+        $post = request()->all();
+        $validator = Validator::make($post, [
+            'stok' => 'required',
+        ], [
+            'required' => ':attribute is required.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'  => 'An input error occurred.',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $data = [
+            'id_produk' => $id,
+            'stok' => $request->stok,
+            'tgl_pembelian' => $request->tgl_pembelian,
+            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
+        ];
+        $query = Stok::create($data);
+
+        if ($query) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data stok berhasil diupdate'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data stok gagal diupdate'
+            ]);
+        }
     }
 
     public function create()

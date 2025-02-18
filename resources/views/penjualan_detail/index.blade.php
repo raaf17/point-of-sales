@@ -43,9 +43,6 @@
                             data: 'diskon'
                         },
                         {
-                            data: 'subtotal'
-                        },
-                        {
                             data: 'aksi',
                             searchable: false,
                             sortable: false
@@ -57,9 +54,6 @@
                 })
                 .on('draw.dt', function() {
                     loadForm();
-                    // setTimeout(() => {
-                    //     $('#diterima').trigger('input');
-                    // }, 300);
                 });
             table2 = $('.table-produk').DataTable();
 
@@ -69,12 +63,12 @@
 
                 if (jumlah < 1) {
                     $(this).val(1);
-                    alert('Jumlah tidak boleh kurang dari 1');
+                    bootbox.alert('Jumlah tidak boleh kurang dari 1')
                     return;
                 }
                 if (jumlah > 10000) {
                     $(this).val(10000);
-                    alert('Jumlah tidak boleh lebih dari 10000');
+                    bootbox.alert('Jumlah tidak boleh lebih dari 10000')
                     return;
                 }
 
@@ -89,7 +83,7 @@
                         });
                     })
                     .fail(errors => {
-                        alert('Tidak dapat menyimpan data');
+                        bootbox.alert('Tidak dapat menyimpan data');
                         return;
                     });
             });
@@ -131,7 +125,7 @@
                     table.ajax.reload(() => loadForm());
                 })
                 .fail(errors => {
-                    alert('Tidak dapat menyimpan data');
+                    bootbox.alert('Tidak dapat menyimpan data');
                     return;
                 });
         }
@@ -144,10 +138,13 @@
             $('#modal-diskon').modal('show');
         }
 
-        function pilihMember(id, kode, poin) {
+        function pilihMember(id, kode, poin, nama, tipe_member) {
             $('#id_member').val(id);
             $('#kode_member').val(kode);
             $('#poin').val(poin);
+            $('#nama').val(nama);
+            $('#tipe_member').val(tipe_member);
+            $('#tipe_member_id').val(tipe_member);
             loadForm();
             hideMember();
         }
@@ -169,8 +166,9 @@
         }
 
         function deleteData(url) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.post(url, {
+            bootbox.confirm("Apakah anda yakin ingin menghapus data ini?", function(result) {
+                if (result) {
+                    $.post(url, {
                         '_token': $('[name=csrf-token]').attr('content'),
                         '_method': 'delete'
                     })
@@ -178,10 +176,11 @@
                         table.ajax.reload(() => loadForm());
                     })
                     .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
+                        bootbox.alert('Tidak dapat menghapus data');
                         return;
                     });
-            }
+                }
+            });
         }
 
         function loadForm(diterima = 0) {
@@ -197,7 +196,7 @@
                     let ppn = (bayar * 12) / 100;
                     let poin = $('#poin_check').is(':checked') ? parseFloat($('#poin').text()) || 0 : 0;
 
-                    $('#nama').text($('#kode_member').val());
+                    $('#nama').text($('#nama').val());
                     $('#poin').text($('#poin').val());
                     $('#poin_didapat').val(totalRp * 0.02);
                     $('#poin_digunakan').val(poin);
@@ -207,8 +206,9 @@
 
                     let bayarRp = totalRp - poin - diskon + ppn;
                     $('#bayarrp').val(formatRupiah(bayarRp));
+                    $('#diskonrp').val(diskon);
                     $('#bayar').val(bayar);
-                    $('.tampil-bayar').text('Bayar: Rp. ' + formatRupiah(bayar));
+                    $('.tampil-bayar').text('Bayar: Rp. ' + formatRupiah(bayarRp));
 
                     $('#kembali').val('Rp.' + response.kembalirp);
                     if ($('#diterima').val() != 0) {
@@ -218,7 +218,7 @@
                     }
                 })
                 .fail(errors => {
-                    alert('Tidak dapat menampilkan data');
+                    bootbox.alert('Tidak dapat menampilkan data');
                     return;
                 });
         }
@@ -235,52 +235,11 @@
                 let poin = $('#poin_check').is(':checked') ? parseFloat($('#poin').text()) || 0 : 0;
                 $('#poin_digunakan').val(poin);
             });
+
+            $('#tipe_member').on('input change', function() {
+                let tipe_member = $(this).val().trim();
+                $('#tipe_member_id').val(tipe_member);
+            });
         });
-
-        // function loadForm(diterima = 0) {
-        //     $('#total').val($('.total').text());
-        //     $('#total_item').val($('.total_item').text());
-
-        //     $.get(`{{ url('/transaksi/loadform') }}/${$('.total').text()}/${diterima}`)
-        //         .done(response => {
-        //             $('#nama').text($('#kode_member').val());
-        //             $('#poin').text($('#poin').val());
-        //             $('#poin_didapat').val(response.totalrp * 0.02);
-        //             $('#poin_digunakan').val($('#poin_check').is(':checked') ? $('#poin').text() : 0);
-        //             $('#ppn').val(formatRupiah(response.bayar * 12 / 100));
-        //             $('#diskon').val(formatRupiah(response.bayar * $('#diskon').val() / 100));
-        //             $('#totalrp').val(formatRupiah(response.totalrp));
-        //             $('#bayarrp').val(response.totalrp - $('#poin_digunakan').val() - (response.bayar * $('#diskon')
-        //                 .val() / 100) + (response.bayar * 12 / 100));
-        //             $('#bayar').val(response.bayar);
-        //             $('.tampil-bayar').text('Bayar: ' + 'Rp. ' + formatRupiah(response.bayar));
-
-        //             $('#kembali').val('Rp.' + response.kembalirp);
-        //             if ($('#diterima').val() != 0) {
-        //                 $('#kembalirp').text(formatRupiah($('#diterima').val() - response.bayar));
-        //                 $('.tampil-bayar').text('Kembali: ' + 'Rp. ' + formatRupiah($('#diterima').val() - response
-        //                     .bayar));
-        //             }
-        //         })
-        //         .fail(errors => {
-        //             alert('Tidak dapat menampilkan data');
-        //             return;
-        //         })
-        // }
-
-        // function formatRupiah(angka) {
-        //     return new Intl.NumberFormat('id-ID', {
-        //         style: 'decimal',
-        //         minimumFractionDigits: 0
-        //     }).format(angka);
-        // }
-
-        // $(document).ready(function() {
-        //     $('#poin_check').on('change', function() {
-        //         let poin = $('#poin_check').is(':checked') ? $('#poin').text() : 0;
-        //         $('#poin_digunakan').val(poin);
-        //         loadForm();
-        //     });
-        // });
     </script>
 @endpush

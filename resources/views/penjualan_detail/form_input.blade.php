@@ -7,7 +7,7 @@
                         <label for="kode_member">Member</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="kode_member"
-                                value="{{ $memberSelected->kode_member }}">
+                                value="">
                             <span class="input-group-btn">
                                 <button onclick="tampilMember()" class="btn btn-info btn-flat" type="button"><i
                                         class="fa fa-arrow-right"></i></button>
@@ -18,6 +18,7 @@
                 <div class="col-lg-4">
                     <form class="form-produk">
                         @csrf
+                        {{-- <input type="text" id="tipe_member_id" name="tipe_member_id"> --}}
                         <div class="form-group row">
                             <label for="kode_produk">Kode Produk</label>
                             <div class="input-group">
@@ -55,7 +56,6 @@
                         <th>Harga</th>
                         <th width="8%">Jumlah</th>
                         <th width="8%">Diskon</th>
-                        <th>Subtotal</th>
                         <th width="3%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>

@@ -51,7 +51,7 @@ class PenjualanController extends Controller
                 return tanggal_indonesia($penjualan->created_at, false);
             })
             ->editColumn('diskon', function ($penjualan) {
-                return $penjualan->diskon;
+                return 'Rp. ' . format_uang($penjualan->diskon);
             })
             ->editColumn('kasir', function ($penjualan) {
                 return $penjualan->user->name ?? '';
@@ -89,6 +89,11 @@ class PenjualanController extends Controller
             ->make(true);
     }
 
+    public function filter()
+    {
+        return view('penjualan.form');
+    }
+
     public function create()
     {
         $penjualan = new Penjualan();
@@ -111,7 +116,7 @@ class PenjualanController extends Controller
         $penjualan->id_member = $request->id_member;
         $penjualan->total_item = $request->total_item;
         $penjualan->total_harga = $request->total;
-        $penjualan->diskon = $request->diskon;
+        $penjualan->diskon = $request->diskonrp;
         $penjualan->bayar = $request->bayar;
         $penjualan->diterima = $request->diterima;
         $penjualan->update();

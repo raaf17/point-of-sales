@@ -24,7 +24,7 @@
                             <th>Harga Jual 1</th>
                             <th>Harga Jual 2</th>
                             <th>Harga Jual 3</th>
-                            <th width="10%"><i class="fa fa-cog"></i></th>
+                            <th width="12%"><i class="fa fa-cog"></i></th>
                         </thead>
                     </table>
                 </form>

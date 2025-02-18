@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
+{{-- <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
     <div class="modal-dialog" role="document">
         <form action="{{ route('penjualan.data') }}" method="get" data-toggle="validator" class="form-horizontal" id="modalFilter">
             <div class="modal-content">
@@ -34,4 +34,28 @@
             </div>
         </form>
     </div>
+</div> --}}
+
+{!! Form::open(['route' => 'penjualan.data', 'method' => 'get', 'id' => 'filterForm']) !!}
+<div class="form-group">
+    {!! Form::label('tanggal_awal', 'Tanggal Awal') !!}
+    {!! Form::date('tanggal_awal', request('tanggal_awal'), [
+        'class' => 'form-control datepicker',
+        'id' => 'tanggal_awal',
+        'required',
+    ]) !!}
 </div>
+<div class="form-group">
+    {!! Form::label('tanggal_akhir', 'Tanggal Akhir') !!}
+    {!! Form::date('tanggal_akhir', request('tanggal_akhir', date('Y-m-d')), [
+        'class' => 'form-control datepicker',
+        'id' => 'tanggal_akhir',
+        'required',
+    ]) !!}
+</div>
+<div class="col-12 d-flex justify-content-end">
+    <button type="reset" class="btn btn-danger me-1">Reset</button>
+    <button type="button" class="btn btn-secondary me-1" onclick="bootbox.hideAll()">Cancel</button>
+    <button type="button" class="btn btn-primary" onclick="applyFilter()">Simpan</button>
+</div>
+{!! Form::close() !!}

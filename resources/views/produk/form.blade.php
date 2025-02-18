@@ -8,7 +8,7 @@
         'id_kategori',
         ['' => 'Pilih'] + \App\Models\Kategori::pluck('nama_kategori', 'id_kategori')->toArray(),
         null,
-        ['class' => 'form-control', 'id' => 'id_kategori'],
+        ['class' => 'form-select', 'id' => 'id_kategori'],
     ) !!}
 </div>
 <div class="form-group">
@@ -17,7 +17,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('satuan', 'Satuan') !!}
-    {!! Form::text('satuan', null, ['class' => 'form-control', 'id' => 'satuan']) !!}
+    {!! Form::select('satuan', ['' => 'Pilih', 'PCS' => 'PCS', 'BOX' => 'BOX', 'Lusin' => 'Lusin'], null, ['class' => 'form-select', 'id' => 'satuan']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('stok', 'Stok') !!}

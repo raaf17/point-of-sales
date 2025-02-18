@@ -11,8 +11,7 @@
                 ajax: {
                     url: '{{ route('produk.data') }}',
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
@@ -49,6 +48,56 @@
                 ]
             });
         });
+
+        // $(document).on('click', '.add-stok-btn', function(e) {
+        //     e.preventDefault();
+        //     var id = $(this).data('id');
+        //     console.log(id)
+
+        //     $.ajax({
+        //         url: '{{ route('produk.addqty') }}',
+        //         success: function(response) {
+        //             bootbox.dialog({
+        //                 title: 'Tambah Stok Produk',
+        //                 message: response,
+        //             })
+        //         }
+        //     })
+        // });
+
+        function addQty(id) {
+            $.ajax({
+                url: '{{ route('produk.addqty') }}/' + id,
+                success: function(response) {
+                    bootbox.dialog({
+                        title: 'Tambah Stok Produk',
+                        message: response,
+                    })
+                }
+            })
+        }
+
+        function storeQty(id) {
+            $.ajax({
+                url: '{{ route('produk.storeqty') }}/' + id,
+                type: 'POST',
+                dataType: 'JSON',
+                data: $('#formAddStok').serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Success', response.message);
+                        table.ajax.reload();
+                    } else {
+                        toastr.error('Failed', response.message);
+                    }
+                    bootbox.hideAll();
+                },
+                error: function(error) {
+                    var response = JSON.parse(error.responseText);
+                    $('#formAddStok').prepend(validation(response))
+                }
+            })
+        }
 
         function create() {
             $.ajax({
@@ -150,20 +199,5 @@
                 }
             });
         }
-
-        // function cetakBarcode(url) {
-        //     if ($('input:checked').length < 1) {
-        //         alert('Pilih data yang akan dicetak');
-        //         return;
-        //     } else if ($('input:checked').length < 3) {
-        //         alert('Pilih minimal 3 data untuk dicetak');
-        //         return;
-        //     } else {
-        //         $('.form-produk')
-        //             .attr('target', '_blank')
-        //             .attr('action', url)
-        //             .submit();
-        //     }
-        // }
     </script>
 @endpush

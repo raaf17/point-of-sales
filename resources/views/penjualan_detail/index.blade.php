@@ -240,18 +240,6 @@
                 let tipe_member = $(this).val().trim();
                 $('#tipe_member_id').val(tipe_member);
             });
-
-            $(".form-penjualan").on("submit", function(event) {
-                let diterima = parseFloat($("#diterima").val()) || 0;
-                let totalAkhir = parseFloat($("#bayarrp").val().replace(/[^0-9.-]+/g, "")) || 0;
-
-                if (diterima < totalAkhir) {
-                    event.preventDefault(); // Mencegah pengiriman form
-                    bootbox.alert(
-                        "Jumlah yang diterima kurang dari total akhir. Harap masukkan jumlah yang cukup."
-                        );
-                }
-            });
         });
     </script>
 @endpush

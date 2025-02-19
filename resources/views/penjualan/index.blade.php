@@ -131,16 +131,17 @@
         }
 
         function deleteData(url) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
+            if (bootbox.confirm('Yakin ingin menghapus data terpilih?')) {
                 $.post(url, {
                         '_token': $('[name=csrf-token]').attr('content'),
                         '_method': 'delete'
                     })
                     .done((response) => {
+                        bootbox.alert('Berhasil menghapus data');
                         table.ajax.reload();
                     })
                     .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
+                        bootbox.alert('Tidak dapat menghapus data');
                         return;
                     });
             }

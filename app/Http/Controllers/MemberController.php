@@ -62,7 +62,7 @@ class MemberController extends Controller
 
         $member = Member::latest()->first() ?? new Member();
         $data = [
-            'kode_member' => tambah_nol_didepan((int)$member->id_member + 1, 3),
+            'kode_member' => tambah_nol_didepan((int)$member->id_member + 1, 5),
             'nama' => $request->nama,
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,

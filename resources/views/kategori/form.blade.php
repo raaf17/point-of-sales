@@ -3,6 +3,6 @@
     {!! Form::text('nama_kategori', null, ['class' => 'form-control', 'id' => 'nama_kategori']) !!}
 </div>
 <div class="form-group">
-    {!! Form::label('warna', 'Tipe Kendaraan') !!}
+    {!! Form::label('warna', 'Warna') !!}
     {!! Form::select('warna', ['' => 'Pilih', 'primary' => 'Primary', 'success' => 'Success', 'secondary' => 'Secondary', 'info' => 'Info', 'danger' => 'Danger'], null, ['class' => 'form-select', 'id' => 'warna']) !!}
 </div>

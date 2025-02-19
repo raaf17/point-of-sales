@@ -18,7 +18,7 @@
                 <div class="col-lg-4">
                     <form class="form-produk">
                         @csrf
-                        {{-- <input type="text" id="tipe_member_id" name="tipe_member_id"> --}}
+                        <input type="hidden" id="tipe_member_id" name="tipe_member_id">
                         <div class="form-group row">
                             <label for="kode_produk">Kode Produk</label>
                             <div class="input-group">

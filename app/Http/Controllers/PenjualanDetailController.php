@@ -48,7 +48,7 @@ class PenjualanDetailController extends Controller
             $row = array();
             $row['kode_produk'] = '<span class="label label-success">' . $item->produk['kode_produk'] . '</span';
             $row['nama_produk'] = $item->produk['nama_produk'];
-            $row['harga_jual']  = 'Rp. ' . format_uang($item->produk['harga_beli'] + ($item->produk['harga_beli'] * 30 / 100));
+            $row['harga_jual']  = 'Rp. ' . format_uang($item->harga_jual);
             $row['jumlah']      = '<input type="number" class="form-control input-sm quantity" data-id="' . $item->id_penjualan_detail . '" value="' . $item->jumlah . '">';
             $row['diskon']      = $item->diskon . '%';
             $row['subtotal']    = 'Rp. ' . format_uang($item->subtotal);
@@ -57,7 +57,7 @@ class PenjualanDetailController extends Controller
                                 </div>';
             $data[] = $row;
 
-            $harga_jual  = $item->produk['harga_beli'] + ($item->produk['harga_beli'] * 30 / 100);
+            $harga_jual  = $item->harga_jual;
 
             $total += $harga_jual * $item->jumlah - (($item->diskon * $item->jumlah) / 100 * $harga_jual);;
             $total_item += $item->jumlah;
@@ -88,6 +88,7 @@ class PenjualanDetailController extends Controller
             return response()->json('Data gagal disimpan', 400);
         }
 
+        // dd($request->all());
         $detail = new PenjualanDetail();
         $detail->id_penjualan = $request->id_penjualan;
         $detail->id_produk = $produk->id_produk;
@@ -101,9 +102,10 @@ class PenjualanDetailController extends Controller
             $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
         }
         $detail->harga_jual = $harga_jual;
+        // dd($detail->harga_jual);
         $detail->jumlah = 1;
-        $detail->diskon = $produk->diskon;
-        $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
+        // $detail->diskon = $produk->diskon;
+        // $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
         $detail->subtotal = $harga_jual - ($produk->diskon / 100 * $harga_jual);
         $detail->save();
 

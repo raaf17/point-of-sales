@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('telepon', 'Telepon') !!}
-    {!! Form::text('telepon', null, ['class' => 'form-control', 'id' => 'telepon']) !!}
+    {!! Form::number('telepon', null, ['class' => 'form-control', 'id' => 'telepon']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('alamat', 'Alamat') !!}

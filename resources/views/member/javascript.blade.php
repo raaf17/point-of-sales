@@ -11,11 +11,7 @@
                 ajax: {
                     url: '{{ route('member.data') }}',
                 },
-                columns: [{
-                        data: 'select_all',
-                        searchable: false,
-                        sortable: false
-                    },
+                columns: [
                     {
                         data: 'DT_RowIndex',
                         searchable: false,

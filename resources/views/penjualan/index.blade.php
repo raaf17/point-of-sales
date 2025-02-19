@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h4 class="card-title fs-4">Total Pendapatan : <b>{{ 'Rp. ' . number_format($pendapatan, 2, ',', '.') }}</b></h4>
+            <h4 class="card-title fs-4">Data Laporan Penjualan</b></h4>
             <div class="card-header-action">
                 <button onclick="filter()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-calendar-alt"></i>
                     Ubah Periode</button>

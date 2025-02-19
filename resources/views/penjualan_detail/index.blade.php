@@ -169,16 +169,16 @@
             bootbox.confirm("Apakah anda yakin ingin menghapus data ini?", function(result) {
                 if (result) {
                     $.post(url, {
-                        '_token': $('[name=csrf-token]').attr('content'),
-                        '_method': 'delete'
-                    })
-                    .done((response) => {
-                        table.ajax.reload(() => loadForm());
-                    })
-                    .fail((errors) => {
-                        bootbox.alert('Tidak dapat menghapus data');
-                        return;
-                    });
+                            '_token': $('[name=csrf-token]').attr('content'),
+                            '_method': 'delete'
+                        })
+                        .done((response) => {
+                            table.ajax.reload(() => loadForm());
+                        })
+                        .fail((errors) => {
+                            bootbox.alert('Tidak dapat menghapus data');
+                            return;
+                        });
                 }
             });
         }
@@ -239,6 +239,18 @@
             $('#tipe_member').on('input change', function() {
                 let tipe_member = $(this).val().trim();
                 $('#tipe_member_id').val(tipe_member);
+            });
+
+            $(".form-penjualan").on("submit", function(event) {
+                let diterima = parseFloat($("#diterima").val()) || 0;
+                let totalAkhir = parseFloat($("#bayarrp").val().replace(/[^0-9.-]+/g, "")) || 0;
+
+                if (diterima < totalAkhir) {
+                    event.preventDefault(); // Mencegah pengiriman form
+                    bootbox.alert(
+                        "Jumlah yang diterima kurang dari total akhir. Harap masukkan jumlah yang cukup."
+                        );
+                }
             });
         });
     </script>

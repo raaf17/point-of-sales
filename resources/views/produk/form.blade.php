@@ -26,7 +26,3 @@
     {!! Form::label('minimal_stok', 'Minimal Stok') !!}
     {!! Form::number('minimal_stok', null, ['class' => 'form-control', 'id' => 'minimal_stok']) !!}
 </div>
-<div class="form-group">
-    {!! Form::label('tgl_kadaluarsa', 'Tanggal Kadaluarsa') !!}
-    {!! Form::date('tgl_kadaluarsa', null, ['class' => 'form-control', 'id' => 'tgl_kadaluarsa']) !!}
-</div>

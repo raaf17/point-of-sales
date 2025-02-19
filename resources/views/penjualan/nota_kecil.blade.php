@@ -73,6 +73,7 @@
         @foreach ($detail as $item)
             <tr>
                 <td colspan="3">{{ $item->produk->nama_produk }}</td>
+                <td>{{ $item->jumlah }}</td>
             </tr>
         @endforeach
     </table>

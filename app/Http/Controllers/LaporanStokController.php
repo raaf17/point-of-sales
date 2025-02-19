@@ -113,7 +113,6 @@ class LaporanStokController extends Controller
             ],
         ];
 
-        // Header Laporan
         $activeWorksheet->mergeCells('A1:F1');
         $activeWorksheet->setCellValue('A1', 'DATA STOK');
         $activeWorksheet->getStyle('A1')->applyFromArray($styleArrayCenterBold20px);
@@ -131,7 +130,6 @@ class LaporanStokController extends Controller
         $activeWorksheet->getStyle('A3:F3')->getFont()->setName('Consolas')->setSize(10);
         $activeWorksheet->getStyle('A4:F4')->getFont()->setName('Consolas')->setSize(10);
 
-        // Header Table
         $activeWorksheet->getStyle('A6:F6')->applyFromArray($styleArray);
         $activeWorksheet->setCellValue('A6', 'NO');
         $activeWorksheet->setCellValue('B6', 'KODE PRODUK');
@@ -189,19 +187,16 @@ class LaporanStokController extends Controller
             $totalSemuaStok += $stokByTanggal->flatten()->sum('stok');
         }
 
-        // Tambahkan Total Semua Stok
         $activeWorksheet->mergeCells("A$row:E$row");
         $activeWorksheet->setCellValue("A$row", "TOTAL SEMUA STOK");
         $activeWorksheet->getStyle("A$row")->applyFromArray($styleArrayTableHeader);
         $activeWorksheet->setCellValue("F$row", $totalSemuaStok);
         $activeWorksheet->getStyle("A$row:F$row")->applyFromArray($styleArrayBorder);
 
-        // Auto size kolom
         foreach (range('A', 'F') as $columnID) {
             $activeWorksheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
-        // Simpan ke folder
         $dirPath = 'report/export/';
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
@@ -213,7 +208,6 @@ class LaporanStokController extends Controller
         $writer = new Xlsx($spreadsheet);
         $writer->save($filePath);
 
-        // Download file
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
@@ -232,16 +226,9 @@ class LaporanStokController extends Controller
         $today = 'Tanggal : ' . $date;
         $website_name = 'Kasirku';
 
-        // Initialize DomPDF
         $pdf = Pdf::loadHTML($this->generateHTML($produk, $website_name, $today, $downloder));
-
-        // Set paper size
         $pdf->setPaper('A4', 'landscape');
-
-        // Render PDF (first pass)
         $pdf->render();
-
-        // Output the generated PDF to Browser
         $filename = 'data-stokbarang_' . date('d-m-y-H-i-s') . '.pdf';
         return $pdf->stream($filename, ['Attachment' => 0]);
     }
@@ -251,8 +238,8 @@ class LaporanStokController extends Controller
         $html = "
     <h1 style='text-align:center; font-family: Consolas; font-size: 20px;'>DATA PENJUALAN</h1>
     <h3 style='text-align:center; font-family: Consolas; font-size: 14px;'>{$website_name}</h3>
-    <p style='font-family: Consolas;'>Tanggal: {$today}</p>
-    <p style='font-family: Consolas;'>Pengunduh: {$downloder}</p>
+    <p style='font-family: Consolas;'>{$today}</p>
+    <p style='font-family: Consolas;'>{$downloder}</p>
     <table style='width:100%; border: 1px solid black; border-collapse: collapse; font-family: Consolas;'>
         <thead>
             <tr style='background-color: #5A8ED1; color: white;'>

@@ -1,14 +1,5 @@
 @extends('layouts.master')
-
-@section('title')
-    Penjualan
-@endsection
-
-@section('breadcrumb')
-    @parent
-    <li class="active">Monitoring Penjualan</li>
-@endsection
-
+@section('title', 'Cetak Nota')
 @section('content')
     <div class="card">
         <div class="card-body">

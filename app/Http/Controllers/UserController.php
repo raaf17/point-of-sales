@@ -32,7 +32,17 @@ class UserController extends Controller
                 </div>
                 ';
             })
-            ->rawColumns(['aksi'])
+            ->editColumn('level', function ($user) {
+                $html = "";
+                if ($user->level == '1') {
+                    $html = '<span class="badge bg-info">Admin</span>';
+                } else {
+                    $html = '<span class="badge bg-primary">Kasir</span>';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['aksi', 'level'])
             ->make(true);
     }
 

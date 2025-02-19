@@ -16,6 +16,7 @@
                         <th width="5%">No.</th>
                         <th>Nama</th>
                         <th>Email</th>
+                        <th>Role</th>
                         <th width="10%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>

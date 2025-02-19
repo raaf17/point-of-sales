@@ -20,6 +20,7 @@
                             <th>Nama</th>
                             <th>Telepon</th>
                             <th>Alamat</th>
+                            <th>Tipe Member</th>
                             <th>Poin</th>
                             <th width="10%"><i class="fa fa-cog"></i></th>
                         </thead>

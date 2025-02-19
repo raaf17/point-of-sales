@@ -23,6 +23,9 @@
                         data: 'email'
                     },
                     {
+                        data: 'level'
+                    },
+                    {
                         data: 'aksi',
                         searchable: false,
                         sortable: false

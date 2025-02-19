@@ -30,6 +30,9 @@
                         data: 'alamat'
                     },
                     {
+                        data: 'tipe_member'
+                    },
+                    {
                         data: 'poin'
                     },
                     {

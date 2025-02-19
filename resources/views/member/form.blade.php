@@ -12,5 +12,5 @@
 </div>
 <div class="form-group">
     {!! Form::label('tipe_member', 'Tipe Member') !!}
-    {!! Form::select('tipe_member', ['' => 'Pilih', 'Silver' => 'Silver', 'Silver' => 'Gold', 'Diamond' => 'Diamond'], null, ['class' => 'form-select', 'id' => 'tipe_member']) !!}
+    {!! Form::select('tipe_member', ['' => 'Pilih', 'Silver' => 'Silver', 'Gold' => 'Gold', 'Diamond' => 'Diamond'], null, ['class' => 'form-select', 'id' => 'tipe_member']) !!}
 </div>

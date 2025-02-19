@@ -97,6 +97,8 @@ class PenjualanDetailController extends Controller
                 $harga_jual = $produk->harga_beli + ($produk->harga_beli * 10 / 100);
             } elseif ($request->tipe_member_id == 'Gold') {
                 $harga_jual = $produk->harga_beli + ($produk->harga_beli * 20 / 100);
+            } elseif ($request->tipe_member_id == 'Silver') {
+                $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);
             }
         } else {
             $harga_jual = $produk->harga_beli + ($produk->harga_beli * 30 / 100);

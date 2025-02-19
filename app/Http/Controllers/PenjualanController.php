@@ -8,6 +8,8 @@ use App\Models\PenjualanDetail;
 use App\Models\Produk;
 use App\Models\Setting;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -127,14 +129,42 @@ class PenjualanController extends Controller
             $member->update();
         }
 
+        // $detail = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();
+        // foreach ($detail as $item) {
+        //     $item->diskon = $request->diskon;
+        //     $item->update();
+
+        //     $produk = Produk::with('stok')->where('produk.id_produk', $item->id_produk)->first();
+        //     $stok = $produk->stok->where('tgl_kadaluarsa', '>=', now())->sum('stok');
+        //     $stok -= $item->jumlah;
+        //     $produk->update();
+        // }
+
         $detail = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();
+
         foreach ($detail as $item) {
             $item->diskon = $request->diskon;
             $item->update();
 
-            $produk = Produk::find($item->id_produk);
-            $produk->stok -= $item->jumlah;
-            $produk->update();
+            $produk = Produk::with('stok')->where('id_produk', $item->id_produk)->first();
+
+            if ($produk) {
+                foreach ($produk->stok->where('tgl_kadaluarsa', '>=', now())->sortBy('tgl_kadaluarsa') as $stok) {
+                    if ($item->jumlah <= 0) {
+                        break;
+                    }
+
+                    if ($stok->stok >= $item->jumlah) {
+                        $stok->stok -= $item->jumlah;
+                        $stok->save();
+                        break;
+                    } else {
+                        $item->jumlah -= $stok->stok;
+                        $stok->stok = 0;
+                        $stok->save();
+                    }
+                }
+            }
         }
 
         return redirect()->route('transaksi.selesai');
@@ -171,9 +201,11 @@ class PenjualanController extends Controller
         $penjualan = Penjualan::find($id);
         $detail    = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();
         foreach ($detail as $item) {
-            $produk = Produk::find($item->id_produk);
+            // $produk = Produk::find($item->id_produk);
+            $produk = Produk::with('stok')->where('produk.id_produk', $item->id_produk)->first();
             if ($produk) {
-                $produk->stok += $item->jumlah;
+                $stok = $produk->stok->where('tgl_kadaluarsa', '>=', now())->sum('stok');
+                $stok += $item->jumlah;
                 $produk->update();
             }
 
@@ -387,5 +419,33 @@ class PenjualanController extends Controller
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
         exit();
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $tanggal_awal = $request->query('tanggal_awal') ?? '';
+        $tanggal_akhir = $request->query('tanggal_akhir') ?? '';
+
+        $startDateWithHour = $tanggal_awal . ' 00:00:00';
+        $endDateWithHour = $tanggal_akhir . ' 23:59:59';
+
+        if ($tanggal_awal != '') {
+            $penjualan = Penjualan::whereBetween('created_at', [$startDateWithHour, $endDateWithHour])->orderBy('created_at', 'DESC')->get();
+        } else {
+            $penjualan = Penjualan::with('member')->orderBy('created_at', 'DESC')->get();
+        }
+
+        $totalPendapatan = $penjualan->sum('bayar');
+
+        $html = view('penjualan.export', compact('penjualan', 'totalPendapatan'))->render();
+
+        $options = new Options();
+        $options->set('defaultFont', 'Courier');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        return $dompdf->stream('data-penjualan_' . date('d-m-Y-H-i-s') . '.pdf');
     }
 }

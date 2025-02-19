@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
         integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     @stack('css')
 </head>
 
@@ -40,36 +41,18 @@
     </div>
     <script src="{{ asset('mazer') }}/assets/js/bootstrap.js"></script>
     <script src="{{ asset('mazer') }}/assets/js/app.js"></script>
-
     <script src="{{ asset('mazer') }}/assets/extensions/jquery/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="{{ asset('mazer') }}/assets/js/pages/datatables.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('mazer') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        function hapus(url) {
-            Swal.fire({
-                title: "{{ __('message.dialog_title') }}",
-                text: "{{ __('message.dialog_delete') }}",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: "{{ __('message.dialog_yes') }}",
-                cancelButtonText: "{{ __('message.dialog_no') }}",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = url;
-                }
-            })
-        }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
+        integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @stack('scripts')
 </body>
 

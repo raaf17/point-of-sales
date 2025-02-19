@@ -166,8 +166,7 @@ return [
          * Package Service Providers...
          */
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Milon\Barcode\BarcodeServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        // Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...

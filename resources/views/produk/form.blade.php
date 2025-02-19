@@ -17,15 +17,10 @@
 </div>
 <div class="form-group">
     {!! Form::label('satuan', 'Satuan') !!}
-    {!! Form::select('satuan', ['' => 'Pilih', 'PCS' => 'PCS', 'BOX' => 'BOX', 'Lusin' => 'Lusin'], null, ['class' => 'form-select', 'id' => 'satuan']) !!}
-</div>
-<div class="form-group">
-    {!! Form::label('stok', 'Stok') !!}
-    {!! Form::number('stok', null, ['class' => 'form-control', 'id' => 'stok']) !!}
-</div>
-<div class="form-group">
-    {!! Form::label('diskon', 'Diskon') !!}
-    {!! Form::number('diskon', null, ['class' => 'form-control', 'id' => 'diskon']) !!}
+    {!! Form::select('satuan', ['' => 'Pilih', 'PCS' => 'PCS', 'BOX' => 'BOX', 'Lusin' => 'Lusin'], null, [
+        'class' => 'form-select',
+        'id' => 'satuan',
+    ]) !!}
 </div>
 <div class="form-group">
     {!! Form::label('minimal_stok', 'Minimal Stok') !!}

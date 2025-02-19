@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "barryvdh/laravel-dompdf": "^0.9.0",
+        "barryvdh/laravel-dompdf": "^2.2",
         "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -20,7 +20,6 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.4",
         "livewire/livewire": "^2.0",
-        "milon/barcode": "^8.0",
         "phpoffice/phpspreadsheet": "^4.0",
         "spatie/laravel-activitylog": "^4.10",
         "yajra/laravel-datatables-oracle": "~9.0"

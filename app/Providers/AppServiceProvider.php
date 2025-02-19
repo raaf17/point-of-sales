@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('auth.login', function ($view) {
             $view->with('setting', Setting::first());
         });
+        view()->composer('layouts.kasir', function ($view) {
+            $view->with('setting', Setting::first());
+        });
     }
 
     /**

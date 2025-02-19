@@ -23,7 +23,6 @@ class ProdukController extends Controller
     {
         $produk = Produk::with('stok')
             ->leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
-            // ->leftJoin('stok', 'stok.id_produk', 'produk.id_produk')
             ->select('produk.*', 'nama_kategori', 'warna')
             ->orderBy('kode_produk', 'DESC')
             ->get();
@@ -132,9 +131,6 @@ class ProdukController extends Controller
             'id_kategori' => $request->id_kategori,
             'satuan' => $request->satuan,
             'harga_beli' => $request->harga_beli,
-            'diskon' => $request->diskon,
-            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
-            'stok' => $request->stok,
             'minimal_stok' => $request->minimal_stok,
         ];
         $query = Produk::create($data);
@@ -154,8 +150,9 @@ class ProdukController extends Controller
 
     public function view($id)
     {
-        $produk = Produk::select('produk.*', 'kategori.*')
-            ->join('kategori', 'kategori.id_kategori', '=', 'produk.id_kategori')
+        $produk = Produk::with('stok')
+            ->leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+            ->select('produk.*', 'nama_kategori', 'warna')
             ->where('produk.id_produk', $id)
             ->first();
 
@@ -163,8 +160,9 @@ class ProdukController extends Controller
         $harga_jual_1 = format_uang($produk->harga_beli + ($produk->harga_beli * 10 / 100));
         $harga_jual_2 = format_uang($produk->harga_beli + ($produk->harga_beli * 20 / 100));
         $harga_jual_3 = format_uang($produk->harga_beli + ($produk->harga_beli * 30 / 100));
+        $stok = $produk->stok->where('tgl_kadaluarsa', '>=', now())->sum('stok');
 
-        return view('produk.view', compact('produk', 'kategori', 'harga_jual_1', 'harga_jual_2', 'harga_jual_3'));
+        return view('produk.view', compact('produk', 'kategori', 'harga_jual_1', 'harga_jual_2', 'harga_jual_3', 'stok'));
     }
 
     public function edit($id)
@@ -194,9 +192,6 @@ class ProdukController extends Controller
             'id_kategori' => $request->id_kategori,
             'satuan' => $request->satuan,
             'harga_beli' => $request->harga_beli,
-            'diskon' => $request->diskon,
-            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
-            'stok' => $request->stok,
             'minimal_stok' => $request->minimal_stok,
         ];
         $query = $produk->update($data);
@@ -235,19 +230,5 @@ class ProdukController extends Controller
                 'message' => 'Data tidak ditemukan'
             ]);
         }
-    }
-
-    public function cetakBarcode(Request $request)
-    {
-        $dataproduk = array();
-        foreach ($request->id_produk as $id) {
-            $produk = Produk::find($id);
-            $dataproduk[] = $produk;
-        }
-
-        $no  = 1;
-        $pdf = PDF::loadView('produk.barcode', compact('dataproduk', 'no'));
-        $pdf->setPaper('a4', 'potrait');
-        return $pdf->stream('produk.pdf');
     }
 }

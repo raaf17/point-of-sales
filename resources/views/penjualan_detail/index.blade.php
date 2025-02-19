@@ -1,5 +1,5 @@
 @extends('layouts.kasir')
-
+@section('title', $title)
 @section('content')
     <div class="row">
         @include('penjualan_detail.form_input')

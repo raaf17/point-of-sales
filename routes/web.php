@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
         Route::get('export', [PenjualanController::class, 'export'])->name('penjualan.export');
+        Route::get('exportpdfpenjualan', [PenjualanController::class, 'exportPDF'])->name('penjualan.exportpdf');
         Route::get('filter', [PenjualanController::class, 'filter'])->name('penjualan.filter');
     });
 
@@ -111,6 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/laporan_stok/data', [LaporanStokController::class, 'data'])->name('laporan_stok.data');
         Route::resource('/laporan_stok', LaporanStokController::class);
         Route::get('exportstok', [LaporanStokController::class, 'export'])->name('laporan_stok.export');
+        Route::get('exportpdf', [LaporanStokController::class, 'exportPDF'])->name('laporan_stok.exportpdf');
         Route::get('view/{id?}', [LaporanStokController::class, 'view'])->name('laporan_stok.view');
 
         Route::get('/logs_activity/data', [LogActivityController::class, 'data'])->name('logs_activity.data');

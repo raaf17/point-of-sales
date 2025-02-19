@@ -111,8 +111,11 @@ class UserController extends Controller
         }
 
         $data = [
-            'nama_user' => $request->nama_user,
-            'warna' => $request->warna,
+            'name' => $request->nama_user,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'level' => 2,
+            'foto' => '/img/user.jpg',
         ];
         if ($request->has('password') && $request->password != "") {
             $data['password'] = bcrypt($request->password);
@@ -165,16 +168,12 @@ class UserController extends Controller
 
     public function updateProfil(Request $request)
     {
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
 
         $user->name = $request->name;
         if ($request->has('password') && $request->password != "") {
             if (Hash::check($request->old_password, $user->password)) {
-                if ($request->password == $request->password_confirmation) {
-                    $user->password = bcrypt($request->password);
-                } else {
-                    return response()->json('Konfirmasi password tidak sesuai', 422);
-                }
+                $user->password = bcrypt($request->password);
             } else {
                 return response()->json('Password lama tidak sesuai', 422);
             }

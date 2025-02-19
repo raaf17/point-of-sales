@@ -42,7 +42,7 @@
     <tr>
         <td style="border-top: 0; border-bottom: 0;">Stok</td>
         <td style="border-top: 0; border-bottom: 0;">:</td>
-        <td style="border-top: 0; border-bottom: 0;">{{ $produk->stok }}</td>
+        <td style="border-top: 0; border-bottom: 0;">{{ $stok }}</td>
     </tr>
     <tr>
         <td style="border-top: 0; border-bottom: 0;">Minimal Stok</td>
@@ -53,15 +53,5 @@
         <td style="border-top: 0; border-bottom: 0;">Diskon</td>
         <td style="border-top: 0; border-bottom: 0;">:</td>
         <td style="border-top: 0; border-bottom: 0;">{{ $produk->diskon }}</td>
-    </tr>
-    <tr>
-        <td style="border-top: 0; border-bottom: 0;">Tanggal Kadaluarsa</td>
-        <td style="border-top: 0; border-bottom: 0;">:</td>
-        <td style="border-top: 0; border-bottom: 0;">{{ tanggal_indonesia($produk->tgl_kadaluarsa) }}</td>
-    </tr>
-    <tr>
-        <td style="border-top: 0; border-bottom: 0;">Tanggal Pembelian</td>
-        <td style="border-top: 0; border-bottom: 0;">:</td>
-        <td style="border-top: 0; border-bottom: 0;">{{ tanggal_indonesia($produk->created_at) }}</td>
     </tr>
 </table>

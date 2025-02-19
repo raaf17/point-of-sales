@@ -5,6 +5,8 @@
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Laporan Stok Barang</h4>
             <div class="card-header-action">
+                <a class="btn btn-danger btn-xs btn-flat" id="exportPdfBtn"><i class="fa fa-file"></i>
+                    PDF</a>
                 <a class="btn btn-success btn-xs btn-flat" id="export"><i class="fa fa-file-export"></i>
                     Excel</a>
             </div>
@@ -83,6 +85,10 @@
                     bootbox.alert('Terjadi kesalahan! Coba lagi.');
                 }
             });
+        });
+
+        $(document).on('click', '#exportPdfBtn', function() {
+            window.open("{{ route('laporan_stok.exportpdf') }}", "_blank");
         });
     </script>
 @endpush

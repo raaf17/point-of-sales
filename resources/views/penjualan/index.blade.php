@@ -5,8 +5,10 @@
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title fs-4">Total Pendapatan : <b>{{ 'Rp. ' . number_format($pendapatan, 2, ',', '.') }}</b></h4>
             <div class="card-header-action">
-                <button onclick="filter()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-exchange-alt"></i>
+                <button onclick="filter()" class="btn btn-info btn-xs btn-flat"><i class="fa fa-calendar-alt"></i>
                     Ubah Periode</button>
+                <a class="btn btn-danger btn-xs btn-flat" id="exportPdfBtn"><i class="fa fa-file"></i>
+                    PDF</a>
                 <a class="btn btn-success btn-xs btn-flat" id="export"><i class="fa fa-file-export"></i>
                     Excel</a>
             </div>
@@ -155,6 +157,20 @@
             }
 
             let url = `{{ route('penjualan.export') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
+            window.location.href = url;
+        });
+
+        $('#exportPdfBtn').on('click', function(e) {
+            e.preventDefault();
+
+            let tanggal_awal = $('#tanggal_awal').val() || localStorage.getItem('tanggal_awal');
+            let tanggal_akhir = $('#tanggal_akhir').val() || localStorage.getItem('tanggal_akhir');
+
+            if (!tanggal_awal || !tanggal_akhir) {
+                window.location.href = '<?= route('penjualan.exportpdf') ?>';
+            }
+
+            let url = `{{ route('penjualan.exportpdf') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
             window.location.href = url;
         });
 

@@ -55,13 +55,22 @@ class UserController extends Controller
     {
         $post = request()->all();
         $validator = Validator::make($post, [
-            'nama_user' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:8'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/',
+            ],
         ], [
             'required' => ':attribute harus diisi.',
-            'unique:user' => 'Email sudah dipakai',
-            'min:8' => 'Password minimal 8 karakter'
+            'string' => ':attribute harus berupa teks.',
+            'max' => ':attribute tidak boleh lebih dari :max karakter.',
+            'email' => 'Format email tidak valid.',
+            'unique' => ':attribute sudah digunakan.',
+            'min' => 'Password minimal :min karakter.',
+            'regex' => 'Password harus mengandung minimal 1 huruf kapital dan 1 angka.',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -71,10 +80,10 @@ class UserController extends Controller
         }
 
         $data = [
-            'name' => $request->nama_user,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'level' => 2,
+            'level' => $request->level,
             'foto' => '/img/user.jpg',
         ];
         $query = User::create($data);
@@ -109,9 +118,13 @@ class UserController extends Controller
         $post = request()->all();
         $user = User::find($id);
         $validator = Validator::make($post, [
-            'nama_user' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'string' => ':attribute harus berupa teks.',
+            'max' => ':attribute tidak boleh lebih dari :max karakter.',
+            'email' => 'Format email tidak valid.',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -121,10 +134,10 @@ class UserController extends Controller
         }
 
         $data = [
-            'name' => $request->nama_user,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'level' => 2,
+            'level' => $request->level,
             'foto' => '/img/user.jpg',
         ];
         if ($request->has('password') && $request->password != "") {

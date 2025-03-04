@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diskon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,7 +33,7 @@ class DiskonController extends Controller
                 ';
             })
             ->addColumn('waktu', function ($diskon) {
-                return $diskon->tgl_mulai . ' s/d ' . $diskon->tgl_berakhir;
+                return Carbon::parse($diskon->tgl_mulai)->format('M j, Y') . ' sampai ' . Carbon::parse($diskon->tgl_berakhir)->format('M j, Y');
             })
             ->addColumn('diskon', function ($diskon) {
                 return $diskon->diskon . '%';
@@ -51,8 +52,19 @@ class DiskonController extends Controller
         $post = request()->all();
         $validator = Validator::make($post, [
             'nama_diskon' => 'required',
+            'min_diskon' => 'required|numeric|lt:diskon',
+            'max_diskon' => 'required|numeric|gt:diskon',
+            'diskon' => 'required|numeric|max:100',
+            'tgl_mulai' => 'required|date|before_or_equal:tgl_berakhir',
+            'tgl_berakhir' => 'required|date|after_or_equal:tgl_mulai',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'numeric' => ':attribute harus berupa angka.',
+            'max' => 'Diskon tidak boleh lebih dari 100%.',
+            'lt' => 'Minimal diskon harus lebih kecil dari nilai diskon.',
+            'gt' => 'Maksimal diskon harus lebih besar dari nilai diskon.',
+            'before_or_equal' => 'Tanggal mulai tidak boleh lebih dari tanggal berakhir.',
+            'after_or_equal' => 'Tanggal berakhir tidak boleh lebih kecil dari tanggal mulai.',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -65,7 +77,6 @@ class DiskonController extends Controller
         $data = [
             'kode_diskon' => 'DSKN' . tambah_nol_didepan((int)$diskon->id_diskon + 1, 3),
             'nama_diskon' => $request->nama_diskon,
-            'tipe_member_id' => $request->tipe_member_id,
             'min_diskon' => $request->min_diskon,
             'max_diskon' => $request->max_diskon,
             'diskon' => $request->diskon,
@@ -105,8 +116,19 @@ class DiskonController extends Controller
         $diskon = Diskon::find($id);
         $validator = Validator::make($post, [
             'nama_diskon' => 'required',
+            'min_diskon' => 'required|numeric|lt:diskon',
+            'max_diskon' => 'required|numeric|gt:diskon',
+            'diskon' => 'required|numeric|max:100',
+            'tgl_mulai' => 'required|date|before_or_equal:tgl_berakhir',
+            'tgl_berakhir' => 'required|date|after_or_equal:tgl_mulai',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'numeric' => ':attribute harus berupa angka.',
+            'max' => 'Diskon tidak boleh lebih dari 100%.',
+            'lt' => 'Minimal diskon harus lebih kecil dari nilai diskon.',
+            'gt' => 'Maksimal diskon harus lebih besar dari nilai diskon.',
+            'before_or_equal' => 'Tanggal mulai tidak boleh lebih dari tanggal berakhir.',
+            'after_or_equal' => 'Tanggal berakhir tidak boleh lebih kecil dari tanggal mulai.',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -117,7 +139,6 @@ class DiskonController extends Controller
 
         $data = [
             'nama_diskon' => $request->nama_diskon,
-            'tipe_member_id' => $request->tipe_member_id,
             'min_diskon' => $request->min_diskon,
             'max_diskon' => $request->max_diskon,
             'diskon' => $request->diskon,

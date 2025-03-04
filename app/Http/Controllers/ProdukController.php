@@ -73,8 +73,10 @@ class ProdukController extends Controller
         $post = request()->all();
         $validator = Validator::make($post, [
             'stok' => 'required',
+            'tgl_pembelian' => 'required',
+            'tgl_kadaluarsa' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -113,9 +115,14 @@ class ProdukController extends Controller
     {
         $post = request()->all();
         $validator = Validator::make($post, [
-            'nama_produk' => 'required',
+            'nama_produk' => 'required|unique:produk,nama_produk',
+            'id_kategori' => 'required',
+            'harga_beli' => 'required',
+            'satuan' => 'required',
+            'minimal_stok' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'unique' => ':attribute sudah digunakan.'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -177,8 +184,12 @@ class ProdukController extends Controller
         $produk = Produk::find($id);
         $validator = Validator::make($post, [
             'nama_produk' => 'required',
+            'id_kategori' => 'required',
+            'harga_beli' => 'required',
+            'satuan' => 'required',
+            'minimal_stok' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
         ]);
         if ($validator->fails()) {
             return response()->json([

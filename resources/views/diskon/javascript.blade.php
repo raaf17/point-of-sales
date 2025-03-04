@@ -23,9 +23,6 @@
                         data: 'nama_diskon'
                     },
                     {
-                        data: 'tipe_member_id'
-                    },
-                    {
                         data: 'diskon'
                     },
                     {
@@ -67,9 +64,29 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formCreate').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama_diskon) {
+                            $('.error_nama_diskon').text(response.nama_diskon[0]);
+                        }
+                        if (response.min_diskon) {
+                            $('.error_min_diskon').text(response.min_diskon[0]);
+                        }
+                        if (response.max_diskon) {
+                            $('.error_max_diskon').text(response.max_diskon[0]);
+                        }
+                        if (response.diskon) {
+                            $('.error_diskon').text(response.diskon[0]);
+                        }
+                        if (response.tgl_mulai) {
+                            $('.error_tgl_mulai').text(response.tgl_mulai[0]);
+                        }
+                        if (response.tgl_berakhir) {
+                            $('.error_tgl_berakhir').text(response.tgl_berakhir[0]);
+                        }
+                    }
                 }
             })
         }
@@ -113,9 +130,29 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formEdit').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama_diskon) {
+                            $('.error_nama_diskon').text(response.nama_diskon[0]);
+                        }
+                        if (response.min_diskon) {
+                            $('.error_min_diskon').text(response.min_diskon[0]);
+                        }
+                        if (response.max_diskon) {
+                            $('.error_max_diskon').text(response.max_diskon[0]);
+                        }
+                        if (response.diskon) {
+                            $('.error_diskon').text(response.diskon[0]);
+                        }
+                        if (response.tgl_mulai) {
+                            $('.error_tgl_mulai').text(response.tgl_mulai[0]);
+                        }
+                        if (response.tgl_berakhir) {
+                            $('.error_tgl_berakhir').text(response.tgl_berakhir[0]);
+                        }
+                    }
                 }
             })
         }

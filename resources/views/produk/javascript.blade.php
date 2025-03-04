@@ -92,9 +92,20 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formAddStok').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.stok) {
+                            $('.error_stok').text(response.stok[0]);
+                        }
+                        if (response.tgl_pembelian) {
+                            $('.error_tgl_pembelian').text(response.tgl_pembelian[0]);
+                        }
+                        if (response.tgl_kadaluarsa) {
+                            $('.error_tgl_kadaluarsa').text(response.tgl_kadaluarsa[0]);
+                        }
+                    }
                 }
             })
         }
@@ -126,9 +137,26 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formCreate').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama_produk) {
+                            $('.error_nama_produk').text(response.nama_produk[0]);
+                        }
+                        if (response.id_kategori) {
+                            $('.error_id_kategori').text(response.id_kategori[0]);
+                        }
+                        if (response.harga_beli) {
+                            $('.error_harga_beli').text(response.harga_beli[0]);
+                        }
+                        if (response.satuan) {
+                            $('.error_satuan').text(response.satuan[0]);
+                        }
+                        if (response.minimal_stok) {
+                            $('.error_minimal_stok').text(response.minimal_stok[0]);
+                        }
+                    }
                 }
             })
         }
@@ -172,9 +200,26 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formEdit').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama_produk) {
+                            $('.error_nama_produk').text(response.nama_produk[0]);
+                        }
+                        if (response.id_kategori) {
+                            $('.error_id_kategori').text(response.id_kategori[0]);
+                        }
+                        if (response.harga_beli) {
+                            $('.error_harga_beli').text(response.harga_beli[0]);
+                        }
+                        if (response.satuan) {
+                            $('.error_satuan').text(response.satuan[0]);
+                        }
+                        if (response.minimal_stok) {
+                            $('.error_minimal_stok').text(response.minimal_stok[0]);
+                        }
+                    }
                 }
             })
         }

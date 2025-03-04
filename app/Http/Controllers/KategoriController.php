@@ -44,9 +44,11 @@ class KategoriController extends Controller
     {
         $post = request()->all();
         $validator = Validator::make($post, [
-            'nama_kategori' => 'required',
+            'nama_kategori' => 'required|unique:kategori,nama_kategori',
+            'warna' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'unique' => ':attribute sudah digunakan.'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -94,8 +96,9 @@ class KategoriController extends Controller
         $kategori = Kategori::find($id);
         $validator = Validator::make($post, [
             'nama_kategori' => 'required',
+            'warna' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
         ]);
         if ($validator->fails()) {
             return response()->json([

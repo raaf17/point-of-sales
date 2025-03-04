@@ -55,7 +55,6 @@
                         <th>Nama</th>
                         <th>Harga</th>
                         <th width="8%">Jumlah</th>
-                        <th width="8%">Diskon</th>
                         <th width="3%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>

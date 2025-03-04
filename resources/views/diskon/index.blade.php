@@ -16,7 +16,6 @@
                         <th width="5%">No.</th>
                         <th>Kode Diskon</th>
                         <th>Nama Diskon</th>
-                        <th>Type</th>
                         <th>Diskon</th>
                         <th>Waktu</th>
                         <th width="10%"><i class="fa fa-cog"></i></th>

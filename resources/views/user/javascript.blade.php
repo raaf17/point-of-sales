@@ -61,9 +61,20 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formCreate').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.name) {
+                            $('.error_name').text(response.name[0]);
+                        }
+                        if (response.email) {
+                            $('.error_email').text(response.email[0]);
+                        }
+                        if (response.password) {
+                            $('.error_password').text(response.password[0]);
+                        }
+                    }
                 }
             })
         }
@@ -107,9 +118,20 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formEdit').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.name) {
+                            $('.error_name').text(response.name[0]);
+                        }
+                        if (response.email) {
+                            $('.error_email').text(response.email[0]);
+                        }
+                        if (response.password) {
+                            $('.error_password').text(response.password[0]);
+                        }
+                    }
                 }
             })
         }

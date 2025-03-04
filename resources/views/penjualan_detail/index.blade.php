@@ -40,9 +40,6 @@
                             data: 'jumlah'
                         },
                         {
-                            data: 'diskon'
-                        },
-                        {
                             data: 'aksi',
                             searchable: false,
                             sortable: false
@@ -98,8 +95,16 @@
                 $(this).select();
             });
 
-            $('.btn-simpan').on('click', function() {
-                $('.form-penjualan').submit();
+            $('.btn-simpan').on('click', function(e) {
+                const totalAkhir = parseInt($('#bayarrp').val().replace(/[^\d]/g, '')) || 0;
+                const bayar = parseInt($('#diterima').val().replace(/[^\d]/g, '')) || 0;
+                if (bayar < totalAkhir) {
+                    e.preventDefault();
+                    bootbox.alert("Pembayaran tidak mencukupi!");
+                    return;
+                } else if (bayar >= totalAkhir) {
+                    $('.form-penjualan').submit();
+                }
             });
         });
 
@@ -145,7 +150,8 @@
             $('#nama').val(nama);
             $('#tipe_member').val(tipe_member);
             $('#tipe_member_id').val(tipe_member);
-            loadForm();
+            // loadForm();
+            table.ajax.reload(() => loadForm());
             hideMember();
         }
 
@@ -232,6 +238,14 @@
 
         $(document).ready(function() {
             $('#poin_check').on('change', function() {
+                let nama = $('#nama').text().trim();
+                let poinmember = $('#poin').text().trim();
+
+                if (nama === '' || poinmember === '') {
+                    bootbox.alert("Pilih member terlebih dahulu, jika ingin menggunakan poin member.");
+                    $(this).prop('checked', false);
+                }
+
                 let poin = $('#poin_check').is(':checked') ? parseFloat($('#poin').text()) || 0 : 0;
                 $('#poin_digunakan').val(poin);
             });

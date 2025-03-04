@@ -11,8 +11,7 @@
                 ajax: {
                     url: '{{ route('member.data') }}',
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
@@ -71,9 +70,23 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formCreate').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama) {
+                            $('.error_nama').text(response.nama[0]);
+                        }
+                        if (response.telepon) {
+                            $('.error_telepon').text(response.telepon[0]);
+                        }
+                        if (response.alamat) {
+                            $('.error_alamat').text(response.alamat[0]);
+                        }
+                        if (response.tipe_member) {
+                            $('.error_tipe_member').text(response.tipe_member[0]);
+                        }
+                    }
                 }
             })
         }
@@ -117,9 +130,23 @@
                     }
                     bootbox.hideAll();
                 },
-                error: function(error) {
-                    var response = JSON.parse(error.responseText);
-                    $('#formEdit').prepend(validation(response))
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        let response = xhr.responseJSON.errors;
+                        $('.text-danger').text('');
+                        if (response.nama) {
+                            $('.error_nama').text(response.nama[0]);
+                        }
+                        if (response.telepon) {
+                            $('.error_telepon').text(response.telepon[0]);
+                        }
+                        if (response.alamat) {
+                            $('.error_alamat').text(response.alamat[0]);
+                        }
+                        if (response.tipe_member) {
+                            $('.error_tipe_member').text(response.tipe_member[0]);
+                        }
+                    }
                 }
             })
         }

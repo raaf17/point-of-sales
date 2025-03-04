@@ -17,7 +17,7 @@ class LogActivityController extends Controller
 
     public function data()
     {
-        $logs_activity = LogActivity::orderBy('id', 'desc')->get();
+        $logs_activity = LogActivity::orderBy('created_at', 'DESC')->get();
 
         return datatables()
             ->of($logs_activity)
@@ -29,8 +29,8 @@ class LogActivityController extends Controller
                 </div>
                 ';
             })
-            ->editColumn('created_at', function ($data) {
-                return Carbon::parse($data->created_at)->format('M j, Y');
+            ->editColumn('created_at', function ($logs_activity) {
+                return Carbon::parse($logs_activity->created_at)->format('M j, Y');
             })
             ->rawColumns(['aksi', 'created_at'])
             ->make(true);

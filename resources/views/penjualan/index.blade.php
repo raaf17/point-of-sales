@@ -131,17 +131,18 @@
         }
 
         function deleteData(url) {
-            if (bootbox.confirm('Yakin ingin menghapus data terpilih?')) {
+            if (confirm('Yakin ingin menghapus data terpilih?')) {
                 $.post(url, {
                         '_token': $('[name=csrf-token]').attr('content'),
                         '_method': 'delete'
                     })
                     .done((response) => {
-                        bootbox.alert('Berhasil menghapus data');
+                        // bootbox.alert('Berhasil menghapus data');
+                        toastr.success('Success', 'Berhasil menghapus data');
                         table.ajax.reload();
                     })
                     .fail((errors) => {
-                        bootbox.alert('Tidak dapat menghapus data');
+                        toastr.error('Failed', 'Gagal menghapus data');
                         return;
                     });
             }
@@ -171,7 +172,8 @@
                 window.location.href = '<?= route('penjualan.exportpdf') ?>';
             }
 
-            let url = `{{ route('penjualan.exportpdf') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
+            let url =
+                `{{ route('penjualan.exportpdf') }}?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}`;
             window.location.href = url;
         });
 

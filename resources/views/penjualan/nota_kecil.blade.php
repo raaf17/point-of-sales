@@ -82,12 +82,6 @@
     <table width="100%" style="border: 0;">
         <tr>
             <td>Diskon:</td>
-            <td class="text-right">{{ format_uang($penjualan->diskon) }}</td>
-        </tr>
-        <tr>
-            <td>{{ $item->jumlah }} x {{ format_uang($item->harga_jual) }}</td>
-            <td></td>
-            <td class="text-right">{{ format_uang($item->jumlah * $item->harga_jual) }}</td>
         </tr>
         <tr>
             <td>Total Item:</td>

@@ -50,8 +50,15 @@ class MemberController extends Controller
         $post = request()->all();
         $validator = Validator::make($post, [
             'nama' => 'required',
+            'telepon' => [
+                'required',
+                'regex:/^(\+62|62|0)[2-9][0-9]{7,11}$/'
+            ],
+            'alamat' => 'required',
+            'tipe_member' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'telepon.regex' => 'nomor telepon harus format Indonesia (08xx atau +62xx).'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -102,8 +109,15 @@ class MemberController extends Controller
         $member = Member::find($id);
         $validator = Validator::make($post, [
             'nama' => 'required',
+            'telepon' => [
+                'required',
+                'regex:/^(\+62|62|0)[2-9][0-9]{7,11}$/'
+            ],
+            'alamat' => 'required',
+            'tipe_member' => 'required',
         ], [
-            'required' => ':attribute is required.'
+            'required' => ':attribute harus diisi.',
+            'telepon.regex' => 'nomor telepon harus format Indonesia (08xx atau +62xx).'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -154,22 +168,5 @@ class MemberController extends Controller
                 'message' => 'Data tidak ditemukan'
             ]);
         }
-    }
-
-    public function cetakMember(Request $request)
-    {
-        $datamember = collect(array());
-        foreach ($request->id_member as $id) {
-            $member = Member::find($id);
-            $datamember[] = $member;
-        }
-
-        $datamember = $datamember->chunk(2);
-        $setting    = Setting::first();
-
-        $no  = 1;
-        $pdf = PDF::loadView('member.cetak', compact('datamember', 'no', 'setting'));
-        $pdf->setPaper(array(0, 0, 566.93, 850.39), 'potrait');
-        return $pdf->stream('member.pdf');
     }
 }

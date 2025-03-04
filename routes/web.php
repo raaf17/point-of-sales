@@ -62,18 +62,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
         });
 
-        Route::prefix('member')->group(function () {
-            Route::get('/', [MemberController::class, 'index'])->name('member');
-            Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
-            Route::get('create', [MemberController::class, 'create'])->name('member.create');
-            Route::post('store', [MemberController::class, 'store'])->name('member.store');
-            Route::get('edit/{id?}', [MemberController::class, 'edit'])->name('member.edit');
-            Route::get('view/{id?}', [MemberController::class, 'view'])->name('member.view');
-            Route::post('update/{id?}', [MemberController::class, 'update'])->name('member.update');
-            Route::get('delete/{id?}', [MemberController::class, 'delete'])->name('member.delete');
-            Route::get('export', [MemberController::class, 'export'])->name('member.export');
-        });
-
         Route::prefix('diskon')->group(function () {
             Route::get('/', [DiskonController::class, 'index'])->name('diskon');
             Route::get('/diskon/data', [DiskonController::class, 'data'])->name('diskon.data');
@@ -98,6 +86,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transaksi/loadform/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi.load_form');
         Route::resource('/transaksi', PenjualanDetailController::class)
             ->except('create', 'show', 'edit');
+
+        Route::prefix('member')->group(function () {
+            Route::get('/', [MemberController::class, 'index'])->name('member');
+            Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
+            Route::get('create', [MemberController::class, 'create'])->name('member.create');
+            Route::post('store', [MemberController::class, 'store'])->name('member.store');
+            Route::get('edit/{id?}', [MemberController::class, 'edit'])->name('member.edit');
+            Route::get('view/{id?}', [MemberController::class, 'view'])->name('member.view');
+            Route::post('update/{id?}', [MemberController::class, 'update'])->name('member.update');
+            Route::get('delete/{id?}', [MemberController::class, 'delete'])->name('member.delete');
+            Route::get('export', [MemberController::class, 'export'])->name('member.export');
+        });
 
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
